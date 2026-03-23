@@ -101,7 +101,7 @@
 .code-editor-body {
     display: flex;
     min-height: 260px;
-    max-height: 500px;
+    max-height: 900px;
     background: #0F172A;
 }
 
