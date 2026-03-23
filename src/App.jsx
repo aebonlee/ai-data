@@ -14,8 +14,20 @@ const Register = lazy(() => import('./pages/Register'))
 const Profile = lazy(() => import('./pages/Profile'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 const Playground = lazy(() => import('./pages/Playground'))
-const Favorites = lazy(() => import('./pages/Favorites'))
+// Projects
+const ProjectsHome = lazy(() => import('./pages/projects/ProjectsHome'))
+const CafeSales = lazy(() => import('./pages/projects/CafeSales'))
+const StudentScores = lazy(() => import('./pages/projects/StudentScores'))
+const SurveyDashboard = lazy(() => import('./pages/projects/SurveyDashboard'))
+const WeatherPattern = lazy(() => import('./pages/projects/WeatherPattern'))
+const ProductReview = lazy(() => import('./pages/projects/ProductReview'))
+const HRAnalytics = lazy(() => import('./pages/projects/HRAnalytics'))
 const References = lazy(() => import('./pages/References'))
+
+// AICE Associate
+const AICEHome = lazy(() => import('./pages/aice/AICEHome'))
+const AICEClassification = lazy(() => import('./pages/aice/AICEClassification'))
+const AICERegression = lazy(() => import('./pages/aice/AICERegression'))
 
 // Intro
 const WhatIsDataAnalysis = lazy(() => import('./pages/intro/WhatIsDataAnalysis'))
@@ -121,9 +133,22 @@ export default function App() {
                   <Route path="quiz/:quizId" element={<QuizDetail />} />
                   <Route path="badges" element={<BadgeCollection />} />
 
+                  {/* Projects */}
+                  <Route path="projects" element={<ProjectsHome />} />
+                  <Route path="projects/cafe-sales" element={<CafeSales />} />
+                  <Route path="projects/student-scores" element={<StudentScores />} />
+                  <Route path="projects/survey-dashboard" element={<SurveyDashboard />} />
+                  <Route path="projects/weather-pattern" element={<WeatherPattern />} />
+                  <Route path="projects/product-review" element={<ProductReview />} />
+                  <Route path="projects/hr-analytics" element={<HRAnalytics />} />
+
+                  {/* AICE Associate */}
+                  <Route path="aice" element={<AICEHome />} />
+                  <Route path="aice/classification" element={<AICEClassification />} />
+                  <Route path="aice/regression" element={<AICERegression />} />
+
                   {/* Utility */}
                   <Route path="playground" element={<Playground />} />
-                  <Route path="favorites" element={<Favorites />} />
                   <Route path="references" element={<References />} />
 
                   <Route path="*" element={<NotFound />} />

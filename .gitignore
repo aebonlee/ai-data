@@ -25,3 +25,9 @@ npm-debug.log*
 
 # Sharp cache
 .cache/
+
+# Claude Code
+.claude/
+
+# Source PDFs (served from public/aice/)
+/aice/

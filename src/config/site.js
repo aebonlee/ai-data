@@ -70,9 +70,28 @@ export const siteConfig = {
         { label: '배지 컬렉션', path: '/badges' }
       ]
     },
+    {
+      label: '프로젝트',
+      children: [
+        { label: '프로젝트 목록', path: '/projects' },
+        { label: '카페 매출 분석', path: '/projects/cafe-sales' },
+        { label: '학생 성적 분석', path: '/projects/student-scores' },
+        { label: '설문조사 대시보드', path: '/projects/survey-dashboard' },
+        { label: '날씨 패턴 분석', path: '/projects/weather-pattern' },
+        { label: '상품 리뷰 분석', path: '/projects/product-review' },
+        { label: '인사 데이터 분석', path: '/projects/hr-analytics' }
+      ]
+    },
+    {
+      label: 'AICE Associate',
+      children: [
+        { label: 'AICE 소개', path: '/aice' },
+        { label: '분류 실습', path: '/aice/classification' },
+        { label: '회귀 실습', path: '/aice/regression' }
+      ]
+    },
     { label: '실습장', path: '/playground' },
-    { label: '참고자료', path: '/references' },
-    { label: '즐겨찾기', path: '/favorites' }
+    { label: '참고자료', path: '/references' }
   ],
   footerLinks: [
     { label: 'AI 데이터 분석이란?', path: '/intro/what-is-data-analysis' },

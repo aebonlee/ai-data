@@ -283,3 +283,54 @@ src/
 - 참고 자료 페이지 개선 (`References.jsx`)
   - `lesson-body`(800px) 제거하여 컨테이너 전체 폭 사용
   - 카드 배열 `auto-fill` → 3열 고정 그리드로 변경
+
+## v1.3.0 (2026-03-24) - 미니 프로젝트 & AICE Associate
+
+### 추가 기능
+
+- **미니 프로젝트 메뉴**: 6개 실전 프로젝트로 hands-on 실습
+  - 카페 매출 분석 (초급) — Pandas groupby, 시계열, 바/라인 차트
+  - 학생 성적 분석 (초급) — 기술통계, 히스토그램, 상관분석
+  - 설문조사 대시보드 (중급) — 크로스탭, 범주형 데이터, 파이 차트
+  - 날씨 패턴 분석 (중급) — 시계열, 이동평균, 이상치 탐지
+  - 상품 리뷰 분석 (중급) — 텍스트 기초분석, 다중 시각화
+  - 인사 데이터 분석 (고급) — 다변량 분석, 박스플롯, 히트맵
+  - 각 프로젝트 4단계 CodeEditor (Pyodide) 기반 인터랙티브 실습
+  - numpy.random.seed(42)로 인라인 데이터 생성 (외부 CSV 불필요)
+  - 공유 Pyodide worker로 단계별 변수 연계
+
+- **AICE Associate 실습**: AI 자격증(AICE) 시험 대비
+  - 분류(Classification) 실습 — 3개 회차 기출 PDF + CodeEditor 풀이
+  - 회귀(Regression) 실습 — 3개 회차 기출 PDF + CodeEditor 풀이
+  - PDF 뷰어(iframe) + 회차 탭 전환
+  - scikit-learn 기반 ML 파이프라인 템플릿 (전처리 → 모델학습 → 평가)
+  - 6개 PDF 파일 static 서빙 (`public/aice/`)
+
+### 추가 파일
+```
+src/pages/projects/
+├── ProjectsHome.jsx          # 프로젝트 목록 카드 그리드
+├── CafeSales.jsx             # 카페 매출 분석 (4단계 CodeEditor)
+├── StudentScores.jsx         # 학생 성적 분석 (4단계 CodeEditor)
+├── SurveyDashboard.jsx       # 설문조사 대시보드 (4단계 CodeEditor)
+├── WeatherPattern.jsx        # 날씨 패턴 분석 (4단계 CodeEditor)
+├── ProductReview.jsx         # 상품 리뷰 분석 (4단계 CodeEditor)
+└── HRAnalytics.jsx           # 인사 데이터 분석 (4단계 CodeEditor)
+
+src/pages/aice/
+├── AICEHome.jsx              # AICE 소개 + PDF 다운로드 목록
+├── AICEClassification.jsx    # 분류 실습 (PDF뷰어 + CodeEditor)
+└── AICERegression.jsx        # 회귀 실습 (PDF뷰어 + CodeEditor)
+
+public/aice/
+├── classification-1.pdf      # 분류 1회차 기출
+├── classification-2.pdf      # 분류 2회차 기출
+├── classification-3.pdf      # 분류 3회차 기출
+├── regression-1.pdf          # 회귀 1회차 기출
+├── regression-2.pdf          # 회귀 2회차 기출
+└── regression-3.pdf          # 회귀 3회차 기출
+```
+
+### 변경 사항
+- `site.js`: 즐겨찾기 메뉴 제거, 프로젝트 드롭다운 추가 (실습 뒤), AICE Associate 드롭다운 추가
+- `App.jsx`: Favorites import/route 제거, 프로젝트 7개 + AICE 3개 lazy import & route 추가
