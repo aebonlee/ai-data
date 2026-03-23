@@ -2,6 +2,8 @@ import { lazy } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { AuthProvider } from './contexts/AuthContext'
 import { ThemeProvider } from './contexts/ThemeContext'
+import { ProgressProvider } from './contexts/ProgressContext'
+import { BadgeProvider } from './contexts/BadgeContext'
 import PublicLayout from './components/PublicLayout'
 import ProtectedRoute from './components/ProtectedRoute'
 
@@ -55,66 +57,80 @@ const CommunityList = lazy(() => import('./pages/community/CommunityList'))
 const CommunityWrite = lazy(() => import('./pages/community/CommunityWrite'))
 const CommunityView = lazy(() => import('./pages/community/CommunityView'))
 
+// Quiz & Badge
+const QuizHome = lazy(() => import('./pages/quiz/QuizHome'))
+const QuizDetail = lazy(() => import('./pages/quiz/QuizDetail'))
+const BadgeCollection = lazy(() => import('./pages/BadgeCollection'))
+
 export default function App() {
   return (
     <BrowserRouter>
       <ThemeProvider>
         <AuthProvider>
-          <Routes>
-            <Route element={<PublicLayout />}>
-              <Route index element={<Home />} />
-              <Route path="login" element={<Login />} />
-              <Route path="register" element={<Register />} />
-              <Route path="profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+          <ProgressProvider>
+            <BadgeProvider>
+              <Routes>
+                <Route element={<PublicLayout />}>
+                  <Route index element={<Home />} />
+                  <Route path="login" element={<Login />} />
+                  <Route path="register" element={<Register />} />
+                  <Route path="profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
 
-              {/* Intro */}
-              <Route path="intro/what-is-data-analysis" element={<WhatIsDataAnalysis />} />
-              <Route path="intro/python-basics" element={<PythonBasics />} />
-              <Route path="intro/pandas-intro" element={<PandasIntro />} />
-              <Route path="intro/chatgpt" element={<ChatGPT />} />
-              <Route path="intro/data-types" element={<DataTypes />} />
+                  {/* Intro */}
+                  <Route path="intro/what-is-data-analysis" element={<WhatIsDataAnalysis />} />
+                  <Route path="intro/python-basics" element={<PythonBasics />} />
+                  <Route path="intro/pandas-intro" element={<PandasIntro />} />
+                  <Route path="intro/chatgpt" element={<ChatGPT />} />
+                  <Route path="intro/data-types" element={<DataTypes />} />
 
-              {/* Learn */}
-              <Route path="learn/preprocessing" element={<Preprocessing />} />
-              <Route path="learn/eda" element={<EDA />} />
-              <Route path="learn/statistics" element={<Statistics />} />
-              <Route path="learn/visualization" element={<Visualization />} />
+                  {/* Learn */}
+                  <Route path="learn/preprocessing" element={<Preprocessing />} />
+                  <Route path="learn/eda" element={<EDA />} />
+                  <Route path="learn/statistics" element={<Statistics />} />
+                  <Route path="learn/visualization" element={<Visualization />} />
 
-              {/* Practice */}
-              <Route path="practice/sales" element={<Sales />} />
-              <Route path="practice/customer" element={<Customer />} />
-              <Route path="practice/survey" element={<Survey />} />
-              <Route path="practice/timeseries" element={<TimeSeries />} />
-              <Route path="practice/report" element={<Report />} />
+                  {/* Practice */}
+                  <Route path="practice/sales" element={<Sales />} />
+                  <Route path="practice/customer" element={<Customer />} />
+                  <Route path="practice/survey" element={<Survey />} />
+                  <Route path="practice/timeseries" element={<TimeSeries />} />
+                  <Route path="practice/report" element={<Report />} />
 
-              {/* Tips */}
-              <Route path="tips" element={<TipsHome />} />
-              <Route path="tips/chatgpt" element={<TipsChatGPT />} />
-              <Route path="tips/python" element={<TipsPython />} />
-              <Route path="tips/pandas" element={<TipsPandas />} />
-              <Route path="tips/visualization" element={<TipsVisualization />} />
-              <Route path="tips/automation" element={<TipsAutomation />} />
+                  {/* Tips */}
+                  <Route path="tips" element={<TipsHome />} />
+                  <Route path="tips/chatgpt" element={<TipsChatGPT />} />
+                  <Route path="tips/python" element={<TipsPython />} />
+                  <Route path="tips/pandas" element={<TipsPandas />} />
+                  <Route path="tips/visualization" element={<TipsVisualization />} />
+                  <Route path="tips/automation" element={<TipsAutomation />} />
 
-              {/* Lectures */}
-              <Route path="lectures" element={<LecturesHome />} />
-              <Route path="lectures/write" element={<ProtectedRoute><LectureWrite /></ProtectedRoute>} />
+                  {/* Lectures */}
+                  <Route path="lectures" element={<LecturesHome />} />
+                  <Route path="lectures/write" element={<ProtectedRoute><LectureWrite /></ProtectedRoute>} />
 
-              {/* Workbook */}
-              <Route path="workbooks" element={<WorkbookHome />} />
+                  {/* Workbook */}
+                  <Route path="workbooks" element={<WorkbookHome />} />
 
-              {/* Community */}
-              <Route path="community" element={<CommunityList />} />
-              <Route path="community/write" element={<ProtectedRoute><CommunityWrite /></ProtectedRoute>} />
-              <Route path="community/:id" element={<CommunityView />} />
+                  {/* Community */}
+                  <Route path="community" element={<CommunityList />} />
+                  <Route path="community/write" element={<ProtectedRoute><CommunityWrite /></ProtectedRoute>} />
+                  <Route path="community/:id" element={<CommunityView />} />
 
-              {/* Utility */}
-              <Route path="playground" element={<Playground />} />
-              <Route path="favorites" element={<Favorites />} />
-              <Route path="references" element={<References />} />
+                  {/* Quiz & Badge */}
+                  <Route path="quiz" element={<QuizHome />} />
+                  <Route path="quiz/:quizId" element={<QuizDetail />} />
+                  <Route path="badges" element={<BadgeCollection />} />
 
-              <Route path="*" element={<NotFound />} />
-            </Route>
-          </Routes>
+                  {/* Utility */}
+                  <Route path="playground" element={<Playground />} />
+                  <Route path="favorites" element={<Favorites />} />
+                  <Route path="references" element={<References />} />
+
+                  <Route path="*" element={<NotFound />} />
+                </Route>
+              </Routes>
+            </BadgeProvider>
+          </ProgressProvider>
         </AuthProvider>
       </ThemeProvider>
     </BrowserRouter>

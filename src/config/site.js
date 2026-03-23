@@ -63,6 +63,13 @@ export const siteConfig = {
         { label: '커뮤니티', path: '/community' }
       ]
     },
+    {
+      label: '도장깨기',
+      children: [
+        { label: '퀴즈 도전', path: '/quiz' },
+        { label: '배지 컬렉션', path: '/badges' }
+      ]
+    },
     { label: '실습장', path: '/playground' },
     { label: '참고자료', path: '/references' },
     { label: '즐겨찾기', path: '/favorites' }

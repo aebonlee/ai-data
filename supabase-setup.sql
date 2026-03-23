@@ -167,6 +167,55 @@ CREATE TRIGGER ad_workbooks_updated_at
   FOR EACH ROW EXECUTE FUNCTION ad_update_timestamp();
 
 -- ============================================
+-- 5. 사용자 진행 데이터 테이블
+-- ============================================
+
+CREATE TABLE IF NOT EXISTS ad_user_progress (
+  user_id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+  code_runs INTEGER DEFAULT 0,
+  streak_count INTEGER DEFAULT 0,
+  streak_last_date DATE,
+  earned_badges JSONB DEFAULT '[]'::jsonb,
+  quiz_data JSONB DEFAULT '{}'::jsonb,
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- 6. 퀴즈 점수 테이블
+CREATE TABLE IF NOT EXISTS ad_quiz_scores (
+  id BIGSERIAL PRIMARY KEY,
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+  quiz_id VARCHAR(50) NOT NULL,
+  score INTEGER NOT NULL,
+  max_score INTEGER DEFAULT 100,
+  updated_at TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE(user_id, quiz_id)
+);
+
+-- 사용자 진행 RLS
+ALTER TABLE ad_user_progress ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "ad_user_progress_select" ON ad_user_progress
+  FOR SELECT USING (auth.uid() = user_id);
+
+CREATE POLICY "ad_user_progress_insert" ON ad_user_progress
+  FOR INSERT WITH CHECK (auth.uid() = user_id);
+
+CREATE POLICY "ad_user_progress_update" ON ad_user_progress
+  FOR UPDATE USING (auth.uid() = user_id);
+
+-- 퀴즈 점수 RLS
+ALTER TABLE ad_quiz_scores ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "ad_quiz_scores_select" ON ad_quiz_scores
+  FOR SELECT USING (auth.uid() = user_id);
+
+CREATE POLICY "ad_quiz_scores_insert" ON ad_quiz_scores
+  FOR INSERT WITH CHECK (auth.uid() = user_id);
+
+CREATE POLICY "ad_quiz_scores_update" ON ad_quiz_scores
+  FOR UPDATE USING (auth.uid() = user_id);
+
+-- ============================================
 -- 인덱스
 -- ============================================
 
@@ -175,6 +224,8 @@ CREATE INDEX IF NOT EXISTS idx_ad_posts_category ON ad_posts(category);
 CREATE INDEX IF NOT EXISTS idx_ad_comments_post_id ON ad_comments(post_id);
 CREATE INDEX IF NOT EXISTS idx_ad_lectures_week ON ad_lectures(week_number);
 CREATE INDEX IF NOT EXISTS idx_ad_workbooks_week ON ad_workbooks(week_number);
+CREATE INDEX IF NOT EXISTS idx_ad_quiz_scores_user ON ad_quiz_scores(user_id);
+CREATE INDEX IF NOT EXISTS idx_ad_quiz_scores_quiz ON ad_quiz_scores(quiz_id);
 
 -- ============================================
 -- 인증 설정 메모 (Supabase Dashboard에서 설정)

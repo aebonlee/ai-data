@@ -18,7 +18,7 @@
 
 ## 데이터베이스
 - Supabase 테이블 접두사: `ad_`
-- 테이블: `ad_posts`, `ad_comments`, `ad_lectures`, `ad_workbooks`
+- 테이블: `ad_posts`, `ad_comments`, `ad_lectures`, `ad_workbooks`, `ad_user_progress`, `ad_quiz_scores`
 - RLS(Row Level Security) 적용
 - RPC 함수: `ad_increment_lecture_views`, `ad_increment_workbook_views`, `ad_increment_post_views`
 
@@ -38,22 +38,33 @@ ai-data/
 │   │   ├── Footer.jsx       # 푸터 (패밀리 사이트, 연락처)
 │   │   ├── PublicLayout.jsx # 레이아웃 래퍼 (Navbar + Outlet + Footer)
 │   │   ├── ProtectedRoute.jsx # 인증 가드
-│   │   └── SEOHead.jsx      # 동적 메타 태그 관리
+│   │   ├── SEOHead.jsx      # 동적 메타 태그 관리
+│   │   ├── CodeEditor.jsx   # Pyodide 기반 코드 에디터
+│   │   └── QuizComponent.jsx # 퀴즈 컴포넌트
 │   ├── config/
 │   │   ├── supabase.js      # Supabase 클라이언트 (PKCE)
 │   │   └── site.js          # 사이트 설정 (메뉴, 테마, 브랜딩)
 │   ├── contexts/
 │   │   ├── AuthContext.jsx   # 인증 컨텍스트 (Google/Kakao OAuth)
-│   │   └── ThemeContext.jsx  # 테마 컨텍스트 (5색 + 다크모드)
+│   │   ├── ThemeContext.jsx  # 테마 컨텍스트 (5색 + 다크모드)
+│   │   ├── ProgressContext.jsx # 진행/점수 추적
+│   │   └── BadgeContext.jsx  # 배지 추적
 │   ├── hooks/
-│   │   └── useCodeCopy.js   # 코드 블록 복사 버튼 훅
+│   │   ├── useCodeCopy.js   # 코드 블록 복사 버튼 훅
+│   │   └── useCodeRunner.js # Pyodide Python 실행 훅
+│   ├── workers/
+│   │   └── pyodide.worker.js # Pyodide Web Worker
+│   ├── data/
+│   │   ├── quizzes.js       # 6종 퀴즈 데이터 (60문항)
+│   │   └── badges.js        # 19개 배지 데이터
 │   ├── pages/
 │   │   ├── Home.jsx         # 랜딩 페이지 (커리큘럼, 특징, 대상)
 │   │   ├── Login.jsx        # 로그인 (Google/Kakao OAuth)
 │   │   ├── Register.jsx     # 회원가입
 │   │   ├── Profile.jsx      # 프로필
 │   │   ├── NotFound.jsx     # 404 페이지
-│   │   ├── Playground.jsx   # 코드 실습장 (템플릿 제공)
+│   │   ├── Playground.jsx   # 코드 실습장 (Pyodide 기반 실행)
+│   │   ├── BadgeCollection.jsx # 배지 컬렉션
 │   │   ├── Favorites.jsx    # 즐겨찾기 (localStorage)
 │   │   ├── References.jsx   # 참고 자료 링크 모음
 │   │   ├── intro/           # 입문 (5개 페이지)
@@ -85,6 +96,9 @@ ai-data/
 │   │   │   └── LectureWrite.jsx
 │   │   ├── workbook/        # 워크북 관리
 │   │   │   └── WorkbookHome.jsx
+│   │   ├── quiz/             # 도장깨기
+│   │   │   ├── QuizHome.jsx
+│   │   │   └── QuizDetail.jsx
 │   │   └── community/       # 커뮤니티 게시판
 │   │       ├── CommunityList.jsx
 │   │       ├── CommunityWrite.jsx
@@ -93,7 +107,7 @@ ai-data/
 │   │   ├── communityService.js  # ad_posts, ad_comments CRUD
 │   │   ├── lectureService.js    # ad_lectures CRUD
 │   │   └── workbookService.js   # ad_workbooks CRUD
-│   ├── styles/              # CSS 파일 (11개)
+│   ├── styles/              # CSS 파일 (14개)
 │   ├── App.jsx              # 라우팅 (40+ lazy-loaded routes)
 │   ├── main.jsx             # 엔트리 포인트
 │   └── index.css            # CSS 임포트
@@ -140,3 +154,70 @@ ai-data/
 - GitHub Pages: `gh-pages -d dist`
 - SPA 폴백: 빌드 시 index.html → 404.html 자동 복사
 - 커스텀 도메인: ai-data.dreamitbiz.com
+
+## v1.1.0 (2026-03-24) - 소스 실행창 & 도장깨기
+
+### 추가 기능
+- **소스 실행창 (Pyodide)**: 브라우저에서 Python 코드 직접 실행
+  - Pyodide v0.27.0 Web Worker 기반
+  - Pandas, NumPy, Matplotlib, Seaborn, SciPy 등 데이터 분석 패키지 지원
+  - 코드 에디터: 라인 번호, Tab 들여쓰기, Ctrl+Enter 실행
+  - Matplotlib 차트 SVG 렌더링
+  - input() 입력값 처리
+  - 4종 코드 템플릿 (기본 분석, EDA, 시각화, 통계)
+
+- **도장깨기 (퀴즈 시스템)**: 6종 퀴즈, 60문항
+  - Pandas 기초 (10문항)
+  - 데이터 전처리 (10문항)
+  - 탐색적 데이터 분석 (10문항)
+  - 통계 기초 (10문항)
+  - 데이터 시각화 (10문항)
+  - Python 데이터 분석 (10문항)
+  - 타이머, 문제 셔플, 정답 해설
+  - 점수 기록 및 최고 점수 추적
+
+- **배지 시스템**: 19개 배지 (4단계 티어)
+  - Bronze (5개): 첫 도전, 코드 첫 실행, Pandas 입문자, 코드 애호가, 학습 시작
+  - Silver (7개): 전처리/EDA/통계/시각화/Python 마스터, 코드 중독자, 1주 연속
+  - Gold (5개): Pandas 완벽, 통계 마스터, 전과목 통과, 코드 마스터, 한 달 연속
+  - Platinum (2개): 올 퍼펙트, 데이터 사이언티스트
+  - 배지 획득 시 팝업 알림
+  - localStorage + Supabase 동기화
+
+### 추가 파일
+```
+src/
+├── workers/
+│   └── pyodide.worker.js      # Pyodide Web Worker
+├── hooks/
+│   └── useCodeRunner.js        # Python 코드 실행 훅
+├── components/
+│   ├── CodeEditor.jsx          # Python 코드 에디터
+│   └── QuizComponent.jsx       # 퀴즈 컴포넌트
+├── contexts/
+│   ├── ProgressContext.jsx      # 진행/점수 추적 컨텍스트
+│   └── BadgeContext.jsx         # 배지 추적 컨텍스트
+├── data/
+│   ├── quizzes.js              # 6종 퀴즈 데이터 (60문항)
+│   └── badges.js               # 19개 배지 데이터
+├── pages/
+│   ├── quiz/
+│   │   ├── QuizHome.jsx        # 퀴즈 목록 페이지
+│   │   └── QuizDetail.jsx      # 개별 퀴즈 페이지
+│   └── BadgeCollection.jsx     # 배지 컬렉션 페이지
+└── styles/
+    ├── editor.css              # 코드 에디터 스타일
+    ├── quiz.css                # 퀴즈 스타일
+    └── badge.css               # 배지 스타일
+```
+
+### 변경 사항
+- `App.jsx`: ProgressProvider, BadgeProvider 추가, 퀴즈/배지 라우트 추가
+- `site.js`: 도장깨기 메뉴 추가 (퀴즈 도전, 배지 컬렉션)
+- `index.css`: editor.css, quiz.css, badge.css import 추가
+- `Playground.jsx`: CodeEditor 컴포넌트로 교체 (Pyodide 기반 실행)
+- `supabase-setup.sql`: `ad_user_progress`, `ad_quiz_scores` 테이블 추가
+
+### DB 추가 테이블
+- `ad_user_progress`: 코드 실행 횟수, 연속 학습, 배지, 퀴즈 데이터
+- `ad_quiz_scores`: 퀴즈별 최고 점수 기록
