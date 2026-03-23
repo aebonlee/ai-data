@@ -247,3 +247,12 @@ src/
   - 상단 툴바는 복사/초기화/상태 표시만 유지
   - 출력 결과 `white-space: pre`로 변경하여 DataFrame 정렬 유지
   - 출력 영역 가로 스크롤 지원
+
+## v1.1.3 (2026-03-24) - 한글 폰트 다운로드 버그 수정
+
+### 변경 사항
+
+- Matplotlib 한글 폰트 다운로드 방식 변경 (`pyodide.worker.js`)
+  - 기존 `open_url`이 문자열을 반환하여 `write_bytes()` 호출 시 `TypeError` 발생
+  - `pyodide.http.pyfetch` + `await resp.bytes()`로 변경하여 바이너리 데이터 정상 처리
+  - 폰트 파일 경로 캐싱으로 중복 다운로드 방지
