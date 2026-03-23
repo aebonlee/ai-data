@@ -50,22 +50,20 @@ export default function References() {
       <section className="page-header"><div className="container"><h1>참고 자료</h1><p>데이터 분석 학습에 유용한 참고 자료와 링크 모음</p></div></section>
       <section className="section lesson-content">
         <div className="container">
-          <div className="lesson-body">
-            {resources.map((group, gi) => (
-              <div key={gi} style={{ marginBottom: '2rem' }}>
-                <h2>{group.category}</h2>
-                <div className="curriculum-grid">
-                  {group.items.map((item, ii) => (
-                    <a key={ii} href={item.url} target="_blank" rel="noopener noreferrer" className="curriculum-card" style={{ textDecoration: 'none' }}>
-                      <h3 className="curriculum-card-title">{item.title}</h3>
-                      <p className="curriculum-card-desc">{item.desc}</p>
-                      <span style={{ fontSize: '0.8rem', color: 'var(--primary)', marginTop: 'auto' }}>바로가기 &rarr;</span>
-                    </a>
-                  ))}
-                </div>
+          {resources.map((group, gi) => (
+            <div key={gi} style={{ marginBottom: '2rem' }}>
+              <h2 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '1rem', paddingBottom: '8px', borderBottom: '2px solid var(--primary-blue)', color: 'var(--text-primary)' }}>{group.category}</h2>
+              <div className="curriculum-grid" style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
+                {group.items.map((item, ii) => (
+                  <a key={ii} href={item.url} target="_blank" rel="noopener noreferrer" className="curriculum-card" style={{ textDecoration: 'none' }}>
+                    <h3 className="curriculum-card-title">{item.title}</h3>
+                    <p className="curriculum-card-desc">{item.desc}</p>
+                    <span style={{ fontSize: '0.8rem', color: 'var(--primary)', marginTop: 'auto' }}>바로가기 &rarr;</span>
+                  </a>
+                ))}
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </section>
     </>
