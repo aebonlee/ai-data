@@ -232,3 +232,18 @@ src/
   - 전화: 010-3700-0629
   - 카카오톡: aebon
   - 운영시간: 평일 09:00 ~ 18:00
+
+## v1.1.2 (2026-03-24) - 실습장 UI/UX 개선
+
+### 변경 사항
+
+- Matplotlib 한글 폰트 자동 적용 (`pyodide.worker.js`)
+  - CDN에서 NanumGothic 폰트 다운로드 후 Matplotlib에 등록
+  - `rcParams`로 한글 폰트 전역 설정, `axes.unicode_minus` 비활성화
+  - 차트 라벨/제목의 한글 깨짐 문제 해결
+
+- 코드 에디터 레이아웃 개선 (`CodeEditor.jsx`, `editor.css`)
+  - 실행 버튼을 상단 툴바에서 코드 에디터 아래로 이동
+  - 상단 툴바는 복사/초기화/상태 표시만 유지
+  - 출력 결과 `white-space: pre`로 변경하여 DataFrame 정렬 유지
+  - 출력 영역 가로 스크롤 지원
