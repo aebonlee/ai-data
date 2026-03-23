@@ -90,6 +90,7 @@ export const siteConfig = {
     { label: '패밀리 사이트 선택', url: '' },
     { label: 'DreamIT Biz', url: 'https://dreamitbiz.com' },
     { label: 'AI Prompt', url: 'https://ai-prompt.dreamitbiz.com' },
+    { label: 'SW Design', url: 'https://software.dreamitbiz.com' },
     { label: 'KoreaTech', url: 'https://koreatech.dreamitbiz.com' },
     { label: 'DB Study', url: 'https://dbstudy.dreamitbiz.com' }
   ],
