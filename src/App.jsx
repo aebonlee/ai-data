@@ -35,6 +35,8 @@ const PythonBasics = lazy(() => import('./pages/intro/PythonBasics'))
 const PandasIntro = lazy(() => import('./pages/intro/PandasIntro'))
 const ChatGPT = lazy(() => import('./pages/intro/ChatGPT'))
 const DataTypes = lazy(() => import('./pages/intro/DataTypes'))
+const ChartTypes = lazy(() => import('./pages/intro/ChartTypes'))
+const BasicStats = lazy(() => import('./pages/intro/BasicStats'))
 
 // Learn
 const Preprocessing = lazy(() => import('./pages/learn/Preprocessing'))
@@ -96,6 +98,8 @@ export default function App() {
                   <Route path="intro/pandas-intro" element={<PandasIntro />} />
                   <Route path="intro/chatgpt" element={<ChatGPT />} />
                   <Route path="intro/data-types" element={<DataTypes />} />
+                  <Route path="intro/chart-types" element={<ChartTypes />} />
+                  <Route path="intro/basic-stats" element={<BasicStats />} />
 
                   {/* Learn */}
                   <Route path="learn/preprocessing" element={<Preprocessing />} />

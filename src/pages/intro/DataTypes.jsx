@@ -211,7 +211,7 @@ export default function DataTypes() {
 
             <div className="lesson-nav">
               <Link to="/intro/chatgpt" className="lesson-nav-btn prev">&larr; 이전: ChatGPT 활용</Link>
-              <Link to="/learn/preprocessing" className="lesson-nav-btn next">다음: 데이터 전처리 &rarr;</Link>
+              <Link to="/intro/chart-types" className="lesson-nav-btn next">다음: 그래프의 종류 &rarr;</Link>
             </div>
           </div>
         </div>

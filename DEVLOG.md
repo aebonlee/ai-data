@@ -425,3 +425,63 @@ public/aice/
 | `src/pages/practice/Survey.jsx` | 7단계 프로젝트 재작성 |
 | `src/pages/practice/TimeSeries.jsx` | 7단계 프로젝트 재작성 |
 | `src/pages/practice/Report.jsx` | 7단계 프로젝트 재작성 |
+
+## v2.1.0 (2026-03-24) - 기초 페이지 2개 추가 + 푸터 바로가기 수정
+
+### 커리큘럼 확장 (13단계 → 15단계)
+
+기초 레벨에 **그래프의 종류**(STEP 06)와 **통계 기초 이해**(STEP 07) 2개 페이지 추가.
+기존 STEP 06~13이 STEP 08~15로 재조정.
+
+| STEP | 레벨 | 제목 | 경로 |
+|------|------|------|------|
+| 01 | 기초 | AI 데이터 분석이란? | /intro/what-is-data-analysis |
+| 02 | 기초 | Python 기초 | /intro/python-basics |
+| 03 | 기초 | Pandas 기초 | /intro/pandas-intro |
+| 04 | 기초 | ChatGPT 활용 | /intro/chatgpt |
+| 05 | 기초 | 데이터 유형 이해 | /intro/data-types |
+| 06 | 기초 | **그래프의 종류** (신규) | /intro/chart-types |
+| 07 | 기초 | **통계 기초 이해** (신규) | /intro/basic-stats |
+| 08 | 중급 | 데이터 전처리 | /learn/preprocessing |
+| 09 | 중급 | 탐색적 데이터 분석 | /learn/eda |
+| 10 | 중급 | 통계 분석 | /learn/statistics |
+| 11 | 중급 | 시각화 기법 | /learn/visualization |
+| 12 | 중급 | 분류 분석 | /learn/classification |
+| 13 | 중급 | 회귀 분석 | /learn/regression |
+| 14 | 고급 | 매출 데이터 분석 | /practice/sales |
+| 15 | 고급 | 보고서 자동 생성 | /practice/report |
+
+### 신규 페이지
+
+- **그래프의 종류** (`src/pages/intro/ChartTypes.jsx`)
+  - 막대 그래프, 선 그래프, 파이 차트, 히스토그램, 산점도, 박스플롯 각각 CodeEditor로 실습
+  - 그래프 선택 가이드 (종합 비교) CodeEditor 포함 (총 7개 CodeEditor)
+
+- **통계 기초 이해** (`src/pages/intro/BasicStats.jsx`)
+  - 평균/중앙값/최빈값, 분산/표준편차, 백분위수/사분위수, 정규분포, 상관계수 각각 CodeEditor
+  - 종합 실습 (직원 데이터 통계 분석) CodeEditor 포함 (총 6개 CodeEditor)
+
+### 푸터 바로가기 수정
+
+- 이전 버전 레이블(`Pandas 입문`, `AI 시각화 기법`)을 현재 메뉴와 일치하도록 갱신
+- `Pandas 입문` → `Pandas 기초`, `탐색적 데이터 분석` → `통계 분석`, `AI 시각화 기법` → `분류 분석`
+
+### 내비게이션 흐름 업데이트
+
+```
+기초: 데이터분석이란 → Python기초 → Pandas기초 → ChatGPT활용 → 데이터유형 → 그래프종류 → 통계기초 →
+중급: 전처리 → EDA → 통계분석 → 시각화 → 분류분석 → 회귀분석 →
+고급: 매출분석 → 보고서자동화
+```
+
+### 수정 파일 목록 (6개 수정 + 2개 신규)
+
+| 파일 | 변경 |
+|------|------|
+| `src/pages/intro/ChartTypes.jsx` | 신규 생성 (7개 CodeEditor) |
+| `src/pages/intro/BasicStats.jsx` | 신규 생성 (6개 CodeEditor) |
+| `src/config/site.js` | 기초 메뉴 2개 추가 + footerLinks 레이블 수정 |
+| `src/App.jsx` | ChartTypes/BasicStats lazy import + route 추가 |
+| `src/pages/Home.jsx` | 커리큘럼 15단계 확장, subtitle 수정 |
+| `src/pages/intro/DataTypes.jsx` | next 링크: /learn/preprocessing → /intro/chart-types |
+| `src/pages/learn/Preprocessing.jsx` | prev 링크: /intro/data-types → /intro/basic-stats |

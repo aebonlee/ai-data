@@ -264,7 +264,7 @@ export default function Preprocessing() {
             </div>
 
             <div className="lesson-nav">
-              <Link to="/intro/data-types" className="lesson-nav-btn prev">&larr; 이전: 데이터 유형 이해</Link>
+              <Link to="/intro/basic-stats" className="lesson-nav-btn prev">&larr; 이전: 통계 기초 이해</Link>
               <Link to="/learn/eda" className="lesson-nav-btn next">다음: 탐색적 데이터 분석 &rarr;</Link>
             </div>
           </div>

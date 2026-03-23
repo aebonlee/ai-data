@@ -7,14 +7,16 @@ const curriculum = [
   { step: 'STEP 03', icon: 'fa-solid fa-table', title: 'Pandas 기초', desc: '데이터 처리의 핵심 라이브러리 Pandas 사용법을 배웁니다.', topics: 'DataFrame / 인덱싱 / groupby / merge', path: '/intro/pandas-intro' },
   { step: 'STEP 04', icon: 'fa-solid fa-robot', title: 'ChatGPT 활용', desc: 'ChatGPT를 데이터 분석 보조 도구로 활용하는 방법을 배웁니다.', topics: '프롬프트 작성 / 코드 생성 / 시각화', path: '/intro/chatgpt' },
   { step: 'STEP 05', icon: 'fa-solid fa-layer-group', title: '데이터 유형 이해', desc: '정형/비정형 데이터, 수치/범주형 데이터의 특성을 이해합니다.', topics: '수치형 / 범주형 / 날짜 / 스케일링', path: '/intro/data-types' },
-  { step: 'STEP 06', icon: 'fa-solid fa-broom', title: '데이터 전처리', desc: '결측치 처리, 이상치 탐지, 데이터 변환 기법을 학습합니다.', topics: '결측치 / 이상치 / 인코딩 / 피처 엔지니어링', path: '/learn/preprocessing' },
-  { step: 'STEP 07', icon: 'fa-solid fa-magnifying-glass-chart', title: '탐색적 데이터 분석', desc: 'EDA를 통해 데이터의 패턴과 인사이트를 발견합니다.', topics: '분포 / 상관관계 / 피벗 / 대시보드', path: '/learn/eda' },
-  { step: 'STEP 08', icon: 'fa-solid fa-calculator', title: '통계 분석', desc: '데이터 분석에 필요한 통계 개념과 검정을 학습합니다.', topics: '기술통계 / 확률분포 / 가설검정 / 상관분석', path: '/learn/statistics' },
-  { step: 'STEP 09', icon: 'fa-solid fa-chart-line', title: '시각화 기법', desc: 'Matplotlib, Seaborn을 활용한 데이터 시각화를 학습합니다.', topics: 'Matplotlib / Seaborn / 대시보드', path: '/learn/visualization' },
-  { step: 'STEP 10', icon: 'fa-solid fa-tags', title: '분류 분석', desc: '분류 알고리즘으로 범주를 예측하는 머신러닝을 학습합니다.', topics: '로지스틱회귀 / 의사결정나무 / 랜덤포레스트', path: '/learn/classification' },
-  { step: 'STEP 11', icon: 'fa-solid fa-arrow-trend-up', title: '회귀 분석', desc: '회귀 알고리즘으로 연속값을 예측하는 머신러닝을 학습합니다.', topics: '선형회귀 / 의사결정나무 / RMSE / R2', path: '/learn/regression' },
-  { step: 'STEP 12', icon: 'fa-solid fa-cart-shopping', title: '매출 데이터 분석', desc: '실제 매출 데이터를 활용한 분석 프로젝트를 수행합니다.', topics: '매출 트렌드 / 카테고리 / 고객 / 대시보드', path: '/practice/sales' },
-  { step: 'STEP 13', icon: 'fa-solid fa-file-lines', title: '보고서 자동 생성', desc: 'AI를 활용하여 분석 보고서를 자동으로 생성합니다.', topics: 'KPI / 차트 / HTML 보고서 / 자동화', path: '/practice/report' }
+  { step: 'STEP 06', icon: 'fa-solid fa-chart-pie', title: '그래프의 종류', desc: '데이터 분석에서 사용하는 주요 그래프 유형과 활용법을 학습합니다.', topics: '막대 / 선 / 파이 / 히스토그램 / 산점도 / 박스플롯', path: '/intro/chart-types' },
+  { step: 'STEP 07', icon: 'fa-solid fa-square-root-variable', title: '통계 기초 이해', desc: '데이터 분석에 필요한 기본 통계 개념을 직관적으로 학습합니다.', topics: '평균 / 표준편차 / 사분위수 / 정규분포 / 상관계수', path: '/intro/basic-stats' },
+  { step: 'STEP 08', icon: 'fa-solid fa-broom', title: '데이터 전처리', desc: '결측치 처리, 이상치 탐지, 데이터 변환 기법을 학습합니다.', topics: '결측치 / 이상치 / 인코딩 / 피처 엔지니어링', path: '/learn/preprocessing' },
+  { step: 'STEP 09', icon: 'fa-solid fa-magnifying-glass-chart', title: '탐색적 데이터 분석', desc: 'EDA를 통해 데이터의 패턴과 인사이트를 발견합니다.', topics: '분포 / 상관관계 / 피벗 / 대시보드', path: '/learn/eda' },
+  { step: 'STEP 10', icon: 'fa-solid fa-calculator', title: '통계 분석', desc: '데이터 분석에 필요한 통계 개념과 검정을 학습합니다.', topics: '기술통계 / 확률분포 / 가설검정 / 상관분석', path: '/learn/statistics' },
+  { step: 'STEP 11', icon: 'fa-solid fa-chart-line', title: '시각화 기법', desc: 'Matplotlib, Seaborn을 활용한 데이터 시각화를 학습합니다.', topics: 'Matplotlib / Seaborn / 대시보드', path: '/learn/visualization' },
+  { step: 'STEP 12', icon: 'fa-solid fa-tags', title: '분류 분석', desc: '분류 알고리즘으로 범주를 예측하는 머신러닝을 학습합니다.', topics: '로지스틱회귀 / 의사결정나무 / 랜덤포레스트', path: '/learn/classification' },
+  { step: 'STEP 13', icon: 'fa-solid fa-arrow-trend-up', title: '회귀 분석', desc: '회귀 알고리즘으로 연속값을 예측하는 머신러닝을 학습합니다.', topics: '선형회귀 / 의사결정나무 / RMSE / R2', path: '/learn/regression' },
+  { step: 'STEP 14', icon: 'fa-solid fa-cart-shopping', title: '매출 데이터 분석', desc: '실제 매출 데이터를 활용한 분석 프로젝트를 수행합니다.', topics: '매출 트렌드 / 카테고리 / 고객 / 대시보드', path: '/practice/sales' },
+  { step: 'STEP 15', icon: 'fa-solid fa-file-lines', title: '보고서 자동 생성', desc: 'AI를 활용하여 분석 보고서를 자동으로 생성합니다.', topics: 'KPI / 차트 / HTML 보고서 / 자동화', path: '/practice/report' }
 ]
 
 const features = [
@@ -86,7 +88,7 @@ export default function Home() {
         <div className="container">
           <div className="section-header">
             <h2 className="section-title">커리큘럼</h2>
-            <p className="section-subtitle">AI 데이터 분석의 기초부터 실전까지, 13단계로 체계적으로 학습합니다</p>
+            <p className="section-subtitle">AI 데이터 분석의 기초부터 실전까지, 15단계로 체계적으로 학습합니다</p>
           </div>
           <div className="curriculum-grid">
             {curriculum.map((item, i) => (
