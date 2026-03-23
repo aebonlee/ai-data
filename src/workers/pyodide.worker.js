@@ -84,14 +84,30 @@ self.onmessage = async function (e) {
         await py.loadPackagesFromImports(code, { messageCallback: () => {} })
       }
 
-      // Setup matplotlib.pyplot.show override
+      // Setup matplotlib with Korean font + show override
       await py.runPythonAsync(`
 import sys, io
 try:
     import matplotlib
     matplotlib.use('agg')
     import matplotlib.pyplot as plt
-    _orig_show = plt.show
+    import matplotlib.font_manager as fm
+
+    # Download and register Korean font (Nanum Gothic)
+    if not any('NanumGothic' in f.name for f in fm.fontManager.ttflist):
+        from pyodide.http import open_url
+        import pathlib
+        font_url = 'https://cdn.jsdelivr.net/gh/googlefonts/nanum@main/fonts/NanumGothic-Regular.ttf'
+        font_path = pathlib.Path('/tmp/NanumGothic.ttf')
+        if not font_path.exists():
+            resp = open_url(font_url)
+            font_path.write_bytes(resp.read())
+        fm.fontManager.addfont(str(font_path))
+
+    # Apply Korean font globally
+    plt.rcParams['font.family'] = 'NanumGothic'
+    plt.rcParams['axes.unicode_minus'] = False
+
     def _patched_show(*a, **kw):
         buf = io.BytesIO()
         plt.savefig(buf, format='svg', bbox_inches='tight', dpi=100)
