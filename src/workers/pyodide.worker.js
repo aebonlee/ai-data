@@ -70,7 +70,7 @@ self.onmessage = async function (e) {
       // Download Korean font via JS fetch (more reliable than Python pyfetch)
       try {
         if (!py.FS.analyzePath('/tmp/NanumGothic.ttf').exists) {
-          const fontResp = await fetch('https://cdn.jsdelivr.net/gh/googlefonts/nanum@main/fonts/NanumGothic-Regular.ttf')
+          const fontResp = await fetch('https://fonts.gstatic.com/s/nanumgothic/v23/PN_3Rfi-oW3hYwmKDpxS7F_z_tLfxno73g.ttf')
           if (fontResp.ok) {
             const buf = await fontResp.arrayBuffer()
             py.FS.writeFile('/tmp/NanumGothic.ttf', new Uint8Array(buf))
