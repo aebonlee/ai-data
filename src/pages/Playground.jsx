@@ -142,7 +142,7 @@ export default function Playground() {
 
       <section className="section lesson-content">
         <div className="container">
-          <div className="lesson-body">
+          <div className="playground-body">
             <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
               {templates.map((t, i) => (
                 <button
