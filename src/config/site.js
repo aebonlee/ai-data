@@ -94,9 +94,9 @@ export const siteConfig = {
     { label: 'DB Study', url: 'https://dbstudy.dreamitbiz.com' }
   ],
   contact: {
-    email: 'admin@dreamitbiz.com',
-    phone: '010-1234-5678',
-    kakao: 'dreamitbiz',
-    hours: '평일 09:00 - 18:00'
+    email: 'aebon@dreamitbiz.com',
+    phone: '010-3700-0629',
+    kakao: 'aebon',
+    hours: '평일 09:00 ~ 18:00'
   }
 }
