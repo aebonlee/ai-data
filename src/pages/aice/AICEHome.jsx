@@ -25,7 +25,7 @@ export default function AICEHome() {
       </section>
       <section className="section lesson-content">
         <div className="container">
-          <div className="lesson-body">
+          <div className="playground-body">
 
             <div className="callout-box">
               <h3>AICE Associate란?</h3>

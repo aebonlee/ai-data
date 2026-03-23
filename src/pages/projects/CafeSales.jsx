@@ -127,7 +127,7 @@ export default function CafeSales() {
       </section>
       <section className="section lesson-content">
         <div className="container">
-          <div className="lesson-body">
+          <div className="playground-body">
 
             <div className="callout-box">
               <h3>프로젝트 목표</h3>

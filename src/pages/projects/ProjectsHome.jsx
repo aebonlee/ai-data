@@ -76,7 +76,7 @@ export default function ProjectsHome() {
       </section>
       <section className="section lesson-content">
         <div className="container">
-          <div className="lesson-body">
+          <div className="playground-body">
             <div className="callout-box">
               <h3>프로젝트 안내</h3>
               <p>각 프로젝트는 <strong>4단계</strong>로 구성되며, 브라우저에서 직접 Python 코드를 실행할 수 있습니다.

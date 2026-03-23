@@ -179,7 +179,7 @@ export default function AICERegression() {
       </section>
       <section className="section lesson-content">
         <div className="container">
-          <div className="lesson-body">
+          <div className="playground-body">
 
             <h2>기출문제 PDF</h2>
             <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
