@@ -67,6 +67,17 @@ self.onmessage = async function (e) {
         await py.loadPackagesFromImports(code, { messageCallback: () => {} })
       }
 
+      // Download Korean font via JS fetch (more reliable than Python pyfetch)
+      try {
+        if (!py.FS.analyzePath('/tmp/NanumGothic.ttf').exists) {
+          const fontResp = await fetch('https://cdn.jsdelivr.net/gh/googlefonts/nanum@main/fonts/NanumGothic-Regular.ttf')
+          if (fontResp.ok) {
+            const buf = await fontResp.arrayBuffer()
+            py.FS.writeFile('/tmp/NanumGothic.ttf', new Uint8Array(buf))
+          }
+        }
+      } catch (e) { /* font download failed, continue */ }
+
       // Setup matplotlib with Korean font + show override
       await py.runPythonAsync(`
 import sys, io
@@ -75,21 +86,13 @@ try:
     matplotlib.use('agg')
     import matplotlib.pyplot as plt
     import matplotlib.font_manager as fm
+    import os
 
-    # Download and register Korean font (Nanum Gothic)
-    if not any('NanumGothic' in f.name for f in fm.fontManager.ttflist):
-        from pyodide.http import pyfetch
-        import pathlib
-        font_url = 'https://cdn.jsdelivr.net/gh/googlefonts/nanum@main/fonts/NanumGothic-Regular.ttf'
-        font_path = pathlib.Path('/tmp/NanumGothic.ttf')
-        if not font_path.exists():
-            resp = await pyfetch(font_url)
-            font_data = await resp.bytes()
-            font_path.write_bytes(font_data)
-        fm.fontManager.addfont(str(font_path))
-
-    # Apply Korean font globally
-    plt.rcParams['font.family'] = 'NanumGothic'
+    # Register Korean font if available
+    if os.path.exists('/tmp/NanumGothic.ttf'):
+        if not any('NanumGothic' in f.name for f in fm.fontManager.ttflist):
+            fm.fontManager.addfont('/tmp/NanumGothic.ttf')
+        plt.rcParams['font.family'] = 'NanumGothic'
     plt.rcParams['axes.unicode_minus'] = False
 
     def _patched_show(*a, **kw):
@@ -102,7 +105,7 @@ try:
         js.postMessage(to_js({'type': 'svg', 'svg': svg}, dict_converter=js.Object.fromEntries))
         plt.close('all')
     plt.show = _patched_show
-except ImportError:
+except Exception:
     pass
 `)
 
