@@ -95,13 +95,14 @@ try:
 
     # Download and register Korean font (Nanum Gothic)
     if not any('NanumGothic' in f.name for f in fm.fontManager.ttflist):
-        from pyodide.http import open_url
+        from pyodide.http import pyfetch
         import pathlib
         font_url = 'https://cdn.jsdelivr.net/gh/googlefonts/nanum@main/fonts/NanumGothic-Regular.ttf'
         font_path = pathlib.Path('/tmp/NanumGothic.ttf')
         if not font_path.exists():
-            resp = open_url(font_url)
-            font_path.write_bytes(resp.read())
+            resp = await pyfetch(font_url)
+            font_data = await resp.bytes()
+            font_path.write_bytes(font_data)
         fm.fontManager.addfont(str(font_path))
 
     # Apply Korean font globally
