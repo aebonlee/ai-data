@@ -485,3 +485,18 @@ public/aice/
 | `src/pages/Home.jsx` | 커리큘럼 15단계 확장, subtitle 수정 |
 | `src/pages/intro/DataTypes.jsx` | next 링크: /learn/preprocessing → /intro/chart-types |
 | `src/pages/learn/Preprocessing.jsx` | prev 링크: /intro/data-types → /intro/basic-stats |
+
+## v2.1.1 (2026-03-24) - README 업데이트 + 사이트 평가 보고서
+
+### 변경 사항
+
+- **README.md** 커리큘럼 15단계 반영
+  - 기초 5단계 → 7단계 (그래프의 종류, 통계 기초 이해 추가)
+  - STEP 번호 전면 재조정 (기초 01~07, 중급 08~13, 고급 14~15)
+  - 프로젝트 구조 intro 디렉토리 5개 → 7개 페이지 반영
+
+- **EVALUATION.md** 사이트 종합 평가 보고서 작성
+  - 12개 항목별 점수화 평가 (총점 85.5/100)
+  - S-Tier: 콘텐츠 완성도, 교육 설계, 인터랙티브 기능, 디자인 시스템
+  - 개선 필요: 접근성(ARIA/키보드), 보안(SVG 새니타이징)
+  - 우선순위별 개선 권장사항 15개 도출
