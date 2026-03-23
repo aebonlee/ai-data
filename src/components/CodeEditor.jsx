@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback, useEffect } from 'react'
+import { useState, useRef, useCallback } from 'react'
 import { useCodeRunner } from '../hooks/useCodeRunner'
 
 const STATUS_MAP = {
@@ -49,7 +49,6 @@ export default function CodeEditor({ initialCode = '', title = '' }) {
   }, [code])
 
   const handleRun = useCallback(() => {
-    // Check for input() usage
     if (/\binput\s*\(/.test(code) && !showInput) {
       setShowInput(true)
       return
@@ -76,11 +75,8 @@ export default function CodeEditor({ initialCode = '', title = '' }) {
     <div className="code-editor">
       {title && <div className="code-editor-title"><i className="fa-solid fa-code" /> {title}</div>}
 
+      {/* 상단: 복사/초기화 + 상태 */}
       <div className="code-editor-toolbar">
-        <button className="editor-btn editor-btn-run" onClick={handleRun} disabled={status === 'loading' || status === 'running'}>
-          <i className={`fa-solid ${status === 'running' ? 'fa-spinner fa-spin' : 'fa-play'}`} />
-          {status === 'loading' ? '로딩...' : status === 'running' ? '실행 중' : '실행'}
-        </button>
         <button className="editor-btn" onClick={handleCopy}><i className="fa-solid fa-copy" /> 복사</button>
         <button className="editor-btn" onClick={handleReset}><i className="fa-solid fa-rotate-left" /> 초기화</button>
         <div className="editor-status">
@@ -90,6 +86,7 @@ export default function CodeEditor({ initialCode = '', title = '' }) {
         <span className="editor-shortcut">Ctrl+Enter</span>
       </div>
 
+      {/* 코드 편집 영역 */}
       <div className="code-editor-body">
         <div className="line-numbers" ref={lineNumRef}>
           {lines.map(n => <div key={n} className="line-num">{n}</div>)}
@@ -105,6 +102,14 @@ export default function CodeEditor({ initialCode = '', title = '' }) {
           autoComplete="off"
           autoCorrect="off"
         />
+      </div>
+
+      {/* 실행 버튼 영역 (코드 아래) */}
+      <div className="code-editor-actions">
+        <button className="editor-btn editor-btn-run" onClick={handleRun} disabled={status === 'loading' || status === 'running'}>
+          <i className={`fa-solid ${status === 'running' ? 'fa-spinner fa-spin' : 'fa-play'}`} />
+          {status === 'loading' ? 'Pyodide 로딩...' : status === 'running' ? '실행 중...' : '실행하기'}
+        </button>
       </div>
 
       {showInput && (
