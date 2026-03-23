@@ -256,3 +256,30 @@ src/
   - 기존 `open_url`이 문자열을 반환하여 `write_bytes()` 호출 시 `TypeError` 발생
   - `pyodide.http.pyfetch` + `await resp.bytes()`로 변경하여 바이너리 데이터 정상 처리
   - 폰트 파일 경로 캐싱으로 중복 다운로드 방지
+
+## v1.2.0 (2026-03-24) - 실습장 & 참고자료 대폭 개선
+
+### 변경 사항
+
+- 출력 줄바꿈 및 차트 렌더링 수정 (`pyodide.worker.js`, `useCodeRunner.js`)
+  - Pyodide stdout 콜백에 `\n` 추가하여 출력 결과 줄바꿈 정상화
+  - matplotlib `plt.show()`를 `js.postMessage`로 SVG 직접 전송 방식으로 변경
+  - 기존 `__SVG_START__/__SVG_END__` 마커 방식 제거 (여러 줄에 나뉘어 매칭 실패 문제)
+  - 미사용 `_MockShow` 클래스 제거
+
+- 한글 폰트 다운로드 안정화 (`pyodide.worker.js`)
+  - Python `pyfetch` → JavaScript native `fetch` + `py.FS.writeFile`로 변경
+  - 기존 jsdelivr CDN URL이 404 → Google Fonts 정적 URL(`fonts.gstatic.com`)로 교체
+  - `except ImportError` → `except Exception`으로 에러 핸들링 강화
+
+- 실습장 레이아웃 확대 (`Playground.jsx`, `editor.css`)
+  - 본문 영역 `lesson-body`(800px) → `playground-body`(1100px)로 확대
+  - 코드 에디터 `max-height` 500px → 900px으로 확대 (긴 코드 스크롤 제거)
+
+- 실습장 템플릿 개선 (`Playground.jsx`)
+  - 시각화 템플릿: 차트 제목 한글화 (카테고리별 매출, 매출 비율)
+  - 통계 분석 템플릿: 히스토그램(점수 분포 비교) + 산점도(상관관계) 그래프 추가
+
+- 참고 자료 페이지 개선 (`References.jsx`)
+  - `lesson-body`(800px) 제거하여 컨테이너 전체 폭 사용
+  - 카드 배열 `auto-fill` → 3열 고정 그리드로 변경
