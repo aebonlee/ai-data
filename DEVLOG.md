@@ -219,5 +219,16 @@ src/
 - `supabase-setup.sql`: `ad_user_progress`, `ad_quiz_scores` 테이블 추가
 
 ### DB 추가 테이블
+
 - `ad_user_progress`: 코드 실행 횟수, 연속 학습, 배지, 퀴즈 데이터
 - `ad_quiz_scores`: 퀴즈별 최고 점수 기록
+
+## v1.1.1 (2026-03-24) - 연락처 수정
+
+### 변경 사항
+
+- 푸터 연락처 정보 수정 (`site.js`)
+  - 이메일: aebon@dreamitbiz.com
+  - 전화: 010-3700-0629
+  - 카카오톡: aebon
+  - 운영시간: 평일 09:00 ~ 18:00
