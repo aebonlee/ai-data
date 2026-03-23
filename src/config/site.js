@@ -16,26 +16,28 @@ export const siteConfig = {
   ],
   menu: [
     {
-      label: '입문',
+      label: '기초',
       children: [
         { label: 'AI 데이터 분석이란?', path: '/intro/what-is-data-analysis' },
         { label: 'Python 기초', path: '/intro/python-basics' },
-        { label: 'Pandas 입문', path: '/intro/pandas-intro' },
+        { label: 'Pandas 기초', path: '/intro/pandas-intro' },
         { label: 'ChatGPT 활용', path: '/intro/chatgpt' },
         { label: '데이터 유형 이해', path: '/intro/data-types' }
       ]
     },
     {
-      label: '학습',
+      label: '중급',
       children: [
         { label: '데이터 전처리', path: '/learn/preprocessing' },
         { label: '탐색적 데이터 분석', path: '/learn/eda' },
-        { label: '통계 기초', path: '/learn/statistics' },
-        { label: 'AI 시각화 기법', path: '/learn/visualization' }
+        { label: '통계 분석', path: '/learn/statistics' },
+        { label: '시각화 기법', path: '/learn/visualization' },
+        { label: '분류 분석', path: '/learn/classification' },
+        { label: '회귀 분석', path: '/learn/regression' }
       ]
     },
     {
-      label: '실습',
+      label: '고급',
       children: [
         { label: '매출 데이터 분석', path: '/practice/sales' },
         { label: '고객 데이터 분석', path: '/practice/customer' },

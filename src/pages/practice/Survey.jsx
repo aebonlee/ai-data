@@ -1,97 +1,314 @@
 import { Link } from 'react-router-dom'
 import SEOHead from '../../components/SEOHead'
+import CodeEditor from '../../components/CodeEditor'
+
+const step1 = `import numpy as np
+import pandas as pd
+
+np.random.seed(42)
+n = 200
+
+# 설문 데이터 생성
+df = pd.DataFrame({
+    '응답자ID': range(1, n+1),
+    '성별': np.random.choice(['남', '여'], n),
+    '연령대': np.random.choice(['20대', '30대', '40대', '50대'], n, p=[0.3, 0.35, 0.2, 0.15]),
+    '부서': np.random.choice(['마케팅', '개발', '기획', '영업', '인사'], n),
+    '근무만족도': np.random.randint(1, 6, n),
+    '급여만족도': np.random.randint(1, 6, n),
+    '복지만족도': np.random.randint(1, 6, n),
+    '성장가능성': np.random.randint(1, 6, n),
+    '워라밸': np.random.randint(1, 6, n),
+    '추천의향': np.random.randint(0, 11, n),
+    '개선사항': np.random.choice(['급여인상', '복지확대', '유연근무', '교육지원', '소통강화', '시설개선'], n)
+})
+
+print(f"데이터 크기: {df.shape}")
+print(f"\\n[처음 10행]")
+print(df.head(10))
+print(f"\\n[기술통계]")
+print(df.describe().round(1))`
+
+const step2 = `import matplotlib.pyplot as plt
+
+# 리커트 척도 분석 (1~5점)
+likert_cols = ['근무만족도', '급여만족도', '복지만족도', '성장가능성', '워라밸']
+
+print("[항목별 평균 점수]")
+means = df[likert_cols].mean().sort_values(ascending=False)
+for col, val in means.items():
+    bar = '█' * int(val * 4)
+    print(f"  {col:<8}: {val:.2f} {bar}")
+
+fig, axes = plt.subplots(1, 2, figsize=(14, 5))
+
+# 평균 비교
+colors = ['#6366f1' if v >= 3 else '#ef4444' for v in means.values]
+axes[0].barh(means.index, means.values, color=colors)
+axes[0].axvline(x=3, color='gray', linestyle='--', alpha=0.5, label='보통(3점)')
+axes[0].set_title('항목별 평균 만족도', fontweight='bold')
+axes[0].set_xlim(1, 5)
+axes[0].legend()
+
+# 분포 비교
+for col in likert_cols:
+    dist = df[col].value_counts().sort_index()
+    axes[1].plot(dist.index, dist.values, marker='o', label=col)
+axes[1].set_title('만족도 분포 비교', fontweight='bold')
+axes[1].set_xlabel('점수')
+axes[1].set_ylabel('응답 수')
+axes[1].legend(fontsize=8)
+
+plt.tight_layout()
+plt.show()`
+
+const step3 = `import matplotlib.pyplot as plt
+import pandas as pd
+
+# 교차분석: 그룹별 만족도 비교
+print("[부서별 평균 만족도]")
+dept_sat = df.groupby('부서')[['근무만족도', '급여만족도', '복지만족도']].mean().round(2)
+print(dept_sat)
+
+print("\\n[연령대별 평균 만족도]")
+age_sat = df.groupby('연령대')[['근무만족도', '급여만족도', '워라밸']].mean().round(2)
+print(age_sat)
+
+fig, axes = plt.subplots(1, 2, figsize=(14, 5))
+
+dept_sat.plot(kind='bar', ax=axes[0], colormap='Set2')
+axes[0].set_title('부서별 만족도 비교', fontweight='bold')
+axes[0].set_ylabel('평균 점수')
+axes[0].tick_params(axis='x', rotation=45)
+axes[0].legend(fontsize=8)
+
+age_sat.plot(kind='bar', ax=axes[1], colormap='Set3')
+axes[1].set_title('연령대별 만족도 비교', fontweight='bold')
+axes[1].set_ylabel('평균 점수')
+axes[1].tick_params(axis='x', rotation=0)
+axes[1].legend(fontsize=8)
+
+plt.tight_layout()
+plt.show()`
+
+const step4 = `from scipy import stats
+import numpy as np
+
+# 통계 검정: 그룹 간 차이
+print("[t-검정: 성별 근무만족도 차이]")
+male = df[df['성별']=='남']['근무만족도']
+female = df[df['성별']=='여']['근무만족도']
+t_stat, p_val = stats.ttest_ind(male, female)
+print(f"  남성 평균: {male.mean():.2f}, 여성 평균: {female.mean():.2f}")
+print(f"  t={t_stat:.3f}, p={p_val:.4f}")
+print(f"  결론: {'유의한 차이 있음' if p_val < 0.05 else '유의한 차이 없음'}")
+
+print("\\n[ANOVA: 부서별 급여만족도 차이]")
+groups = [df[df['부서']==d]['급여만족도'].values for d in df['부서'].unique()]
+f_stat, p_val = stats.f_oneway(*groups)
+print(f"  F={f_stat:.3f}, p={p_val:.4f}")
+print(f"  결론: {'부서 간 유의한 차이 있음' if p_val < 0.05 else '부서 간 유의한 차이 없음'}")
+
+print("\\n[카이제곱: 성별 x 개선사항 독립성]")
+import pandas as pd
+cross = pd.crosstab(df['성별'], df['개선사항'])
+chi2, p_val, dof, expected = stats.chi2_contingency(cross)
+print(f"  χ²={chi2:.3f}, p={p_val:.4f}")
+print(f"  결론: {'연관성 있음' if p_val < 0.05 else '독립적(연관 없음)'}")
+
+# 상관분석
+print("\\n[만족도 항목 간 상관관계]")
+likert_cols = ['근무만족도', '급여만족도', '복지만족도', '성장가능성', '워라밸']
+corr = df[likert_cols].corr()
+for i in range(len(likert_cols)):
+    for j in range(i+1, len(likert_cols)):
+        r = corr.iloc[i, j]
+        if abs(r) > 0.15:
+            print(f"  {likert_cols[i]} ↔ {likert_cols[j]}: r={r:.3f}")`
+
+const step5 = `import matplotlib.pyplot as plt
+import pandas as pd
+
+# 다중 선택 분석: 개선사항
+print("[개선사항 빈도]")
+improve = df['개선사항'].value_counts()
+print(improve)
+
+# NPS (Net Promoter Score)
+promoters = (df['추천의향'] >= 9).sum()
+detractors = (df['추천의향'] <= 6).sum()
+nps = (promoters - detractors) / len(df) * 100
+
+print(f"\\n[NPS 분석]")
+print(f"추천(9-10): {promoters}명 ({promoters/len(df)*100:.1f}%)")
+print(f"중립(7-8): {((df['추천의향'] >= 7) & (df['추천의향'] <= 8)).sum()}명")
+print(f"비추천(0-6): {detractors}명 ({detractors/len(df)*100:.1f}%)")
+print(f"NPS: {nps:.1f}")
+
+fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+
+improve.plot(kind='barh', ax=axes[0], color='#6366f1')
+axes[0].set_title('개선사항 빈도', fontweight='bold')
+
+# NPS 분포
+bins = range(0, 12)
+axes[1].hist(df['추천의향'], bins=bins, color='#10b981', edgecolor='white', align='left')
+axes[1].axvline(x=6.5, color='red', linestyle='--', label='비추천 경계')
+axes[1].axvline(x=8.5, color='orange', linestyle='--', label='추천 경계')
+axes[1].set_title(f'추천의향 분포 (NPS: {nps:.1f})', fontweight='bold')
+axes[1].set_xlabel('추천의향 (0~10)')
+axes[1].legend()
+
+plt.tight_layout()
+plt.show()`
+
+const step6 = `# 자유응답 분석 (키워드 빈도)
+import pandas as pd
+import numpy as np
+
+# 자유응답 시뮬레이션
+np.random.seed(42)
+keywords = ['급여', '복지', '워라밸', '소통', '교육', '성장', '문화', '시설', '리더십', '야근']
+weights = [0.18, 0.15, 0.14, 0.12, 0.1, 0.08, 0.08, 0.06, 0.05, 0.04]
+
+responses = []
+for _ in range(200):
+    n_kw = np.random.randint(1, 4)
+    selected = np.random.choice(keywords, n_kw, replace=False, p=weights)
+    responses.append(', '.join(selected))
+
+# 키워드 빈도 분석
+from collections import Counter
+all_keywords = []
+for r in responses:
+    all_keywords.extend([k.strip() for k in r.split(',')])
+
+freq = Counter(all_keywords)
+freq_df = pd.DataFrame(freq.most_common(), columns=['키워드', '빈도'])
+print("[자유응답 키워드 빈도]")
+print(freq_df)
+
+# 키워드 동시 출현 분석
+print("\\n[키워드 동시 출현 TOP 5]")
+from itertools import combinations
+pairs = []
+for r in responses:
+    kws = sorted([k.strip() for k in r.split(',')])
+    pairs.extend(combinations(kws, 2))
+pair_freq = Counter(pairs).most_common(5)
+for pair, count in pair_freq:
+    print(f"  {pair[0]} + {pair[1]}: {count}회")`
+
+const step7 = `import matplotlib.pyplot as plt
+import numpy as np
+
+# 종합 보고서
+fig, axes = plt.subplots(2, 3, figsize=(16, 10))
+
+# 1) 항목별 평균
+likert_cols = ['근무만족도', '급여만족도', '복지만족도', '성장가능성', '워라밸']
+means = df[likert_cols].mean().sort_values()
+colors = ['#ef4444' if v < 3 else '#f59e0b' if v < 3.5 else '#10b981' for v in means.values]
+axes[0,0].barh(means.index, means.values, color=colors)
+axes[0,0].axvline(x=3, color='gray', linestyle='--')
+axes[0,0].set_title('항목별 평균 만족도')
+axes[0,0].set_xlim(1, 5)
+
+# 2) 부서별 종합
+dept_avg = df.groupby('부서')[likert_cols].mean().mean(axis=1).sort_values()
+axes[0,1].barh(dept_avg.index, dept_avg.values, color='#6366f1')
+axes[0,1].set_title('부서별 종합 만족도')
+axes[0,1].set_xlim(1, 5)
+
+# 3) NPS
+promoters = (df['추천의향'] >= 9).sum()
+passives = ((df['추천의향'] >= 7) & (df['추천의향'] <= 8)).sum()
+detractors = (df['추천의향'] <= 6).sum()
+axes[0,2].pie([promoters, passives, detractors],
+              labels=['추천', '중립', '비추천'],
+              autopct='%1.1f%%', colors=['#10b981', '#f59e0b', '#ef4444'])
+nps = (promoters - detractors) / len(df) * 100
+axes[0,2].set_title(f'NPS: {nps:.1f}')
+
+# 4) 개선사항
+improve = df['개선사항'].value_counts()
+axes[1,0].bar(improve.index, improve.values, color='#8b5cf6')
+axes[1,0].set_title('개선사항 빈도')
+axes[1,0].tick_params(axis='x', rotation=45)
+
+# 5) 연령대별 추천의향
+age_nps = df.groupby('연령대')['추천의향'].mean()
+axes[1,1].bar(age_nps.index, age_nps.values, color='#f59e0b')
+axes[1,1].set_title('연령대별 평균 추천의향')
+axes[1,1].set_ylabel('추천의향 (0~10)')
+
+# 6) 요약
+axes[1,2].axis('off')
+summary = f"""응답자 수: {len(df)}명
+전체 평균 만족도: {df[likert_cols].mean().mean():.2f}/5.0
+NPS: {nps:.1f}
+최고 만족 항목: {means.index[-1]}
+최저 만족 항목: {means.index[0]}
+1순위 개선사항: {improve.index[0]}"""
+axes[1,2].text(0.1, 0.5, summary, fontsize=12, verticalalignment='center',
+               fontfamily='monospace', bbox=dict(boxstyle='round', facecolor='#f0f0f0'))
+axes[1,2].set_title('종합 요약')
+
+plt.suptitle('직원 만족도 설문 종합 보고서', fontsize=16, fontweight='bold')
+plt.tight_layout()
+plt.show()`
 
 export default function Survey() {
   return (
     <>
-      <SEOHead title="설문 데이터 분석" description="설문조사 데이터를 수집, 정리, 분석하는 방법을 학습합니다." />
-      <section className="page-header"><div className="container"><h1>설문 데이터 분석</h1><p>설문조사 데이터를 수집, 정리, 분석하는 방법을 학습합니다</p></div></section>
+      <SEOHead title="설문 데이터 분석" description="리커트 척도, NPS, 교차분석으로 설문 데이터를 분석합니다." />
+      <section className="page-header">
+        <div className="container">
+          <h1>설문 데이터 분석</h1>
+          <p>리커트 척도, NPS, 교차분석으로 설문 데이터를 분석합니다</p>
+        </div>
+      </section>
       <section className="section lesson-content">
         <div className="container">
-          <div className="lesson-body">
-
-            <h2>설문 데이터의 특징</h2>
-            <p>설문조사 데이터는 리커트 척도, 다중 선택, 자유 응답 등 다양한 형태를 포함합니다. 각 유형에 맞는 분석 방법을 적용해야 합니다.</p>
-
-            <h2>데이터 정리</h2>
-            <div className="code-block">
-              <div className="code-header">Python</div>
-              <pre><code>{`import pandas as pd
-
-df = pd.read_csv('survey_results.csv')
-
-# 리커트 척도 매핑
-scale_map = {'매우 불만족': 1, '불만족': 2, '보통': 3, '만족': 4, '매우 만족': 5}
-df['만족도_점수'] = df['만족도'].map(scale_map)
-
-# 다중 선택 분리 (예: "Python,Excel,R")
-skills = df['사용기술'].str.get_dummies(sep=',')
-print(f"기술별 응답수:\\n{skills.sum().sort_values(ascending=False)}")
-
-# 기술통계
-print(f"평균 만족도: {df['만족도_점수'].mean():.2f}")
-print(f"응답자 수: {len(df)}")
-print(f"만족도 분포:\\n{df['만족도'].value_counts()}")`}</code></pre>
-            </div>
-
-            <h2>교차 분석</h2>
-            <div className="code-block">
-              <div className="code-header">Python</div>
-              <pre><code>{`import matplotlib.pyplot as plt
-import seaborn as sns
-from scipy import stats
-
-# 그룹별 만족도 비교
-group_sat = df.groupby('부서')['만족도_점수'].mean().sort_values()
-
-plt.figure(figsize=(10, 5))
-group_sat.plot(kind='barh', color='steelblue')
-plt.title('부서별 평균 만족도')
-plt.xlabel('만족도 점수')
-plt.show()
-
-# 교차표
-cross = pd.crosstab(df['부서'], df['만족도'], normalize='index')
-cross.plot(kind='bar', stacked=True, figsize=(10, 5))
-plt.title('부서별 만족도 분포')
-plt.legend(title='만족도')
-plt.show()
-
-# 통계적 유의성 검정
-groups = [g['만족도_점수'].values for _, g in df.groupby('부서')]
-f_stat, p_value = stats.f_oneway(*groups)
-print(f"ANOVA F={f_stat:.2f}, p={p_value:.4f}")`}</code></pre>
-            </div>
-
-            <h2>자유 응답 분석</h2>
-            <div className="code-block">
-              <div className="code-header">Python</div>
-              <pre><code>{`from collections import Counter
-
-# 간단한 키워드 빈도 분석
-all_text = ' '.join(df['자유응답'].dropna())
-words = all_text.split()
-word_freq = Counter(words).most_common(20)
-print("상위 20 키워드:", word_freq)
-
-# ChatGPT 활용 프롬프트
-prompt = f"""
-다음 설문 자유응답 {len(df)}건을 분석하여:
-1. 주요 테마 3~5개로 분류
-2. 긍정/부정 의견 요약
-3. 개선 제안 사항 정리
-응답 데이터: {df['자유응답'].dropna().tolist()[:50]}
-"""`}</code></pre>
-            </div>
+          <div className="playground-body">
 
             <div className="callout-box">
-              <h3>설문 분석 팁</h3>
-              <p>응답률과 편향을 반드시 확인하세요. 리커트 척도는 중앙경향편향을 주의하고, 자유 응답은 ChatGPT를 활용하면 빠르게 주제 분류와 감성 분석이 가능합니다.</p>
+              <h3>프로젝트 목표</h3>
+              <p>직원 만족도 설문 데이터를 생성하고, 리커트 분석, 교차분석, 통계검정, NPS, 자유응답 분석, 종합 보고서를 작성합니다.</p>
             </div>
+
+            <h2>데이터 설명</h2>
+            <ul>
+              <li><strong>만족도 항목</strong> — 근무, 급여, 복지, 성장가능성, 워라밸 (1~5점 리커트)</li>
+              <li><strong>추천의향</strong> — 0~10점 (NPS 산출용)</li>
+              <li><strong>개선사항</strong> — 급여인상, 복지확대, 유연근무 등</li>
+              <li><strong>인구통계</strong> — 성별, 연령대, 부서</li>
+            </ul>
+
+            <h2>1단계: 데이터 생성</h2>
+            <CodeEditor title="1단계: 데이터 생성" initialCode={step1} />
+
+            <h2>2단계: 리커트 분석</h2>
+            <CodeEditor title="2단계: 리커트 분석" initialCode={step2} />
+
+            <h2>3단계: 교차분석</h2>
+            <CodeEditor title="3단계: 교차분석" initialCode={step3} />
+
+            <h2>4단계: 통계검정</h2>
+            <CodeEditor title="4단계: 통계검정" initialCode={step4} />
+
+            <h2>5단계: NPS + 다중선택 분석</h2>
+            <CodeEditor title="5단계: NPS + 다중선택" initialCode={step5} />
+
+            <h2>6단계: 자유응답 분석</h2>
+            <CodeEditor title="6단계: 자유응답 분석" initialCode={step6} />
+
+            <h2>7단계: 종합 보고서</h2>
+            <CodeEditor title="7단계: 종합 보고서" initialCode={step7} />
 
             <div className="lesson-nav">
               <Link to="/practice/customer" className="lesson-nav-btn prev">&larr; 이전: 고객 데이터 분석</Link>
-              <Link to="/practice/timeseries" className="lesson-nav-btn next">다음: 시계열 분석 &rarr;</Link>
+              <Link to="/practice/timeseries" className="lesson-nav-btn next">다음: 시계열 데이터 분석 &rarr;</Link>
             </div>
           </div>
         </div>

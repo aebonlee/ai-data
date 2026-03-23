@@ -334,3 +334,94 @@ public/aice/
 ### 변경 사항
 - `site.js`: 즐겨찾기 메뉴 제거, 프로젝트 드롭다운 추가 (실습 뒤), AICE Associate 드롭다운 추가
 - `App.jsx`: Favorites import/route 제거, 프로젝트 7개 + AICE 3개 lazy import & route 추가
+
+## v1.3.1 (2026-03-24) - 프로젝트/AICE 페이지 넓은 레이아웃 적용
+
+### 변경 사항
+- 프로젝트/AICE 하위 페이지에 `playground-body` 클래스 적용 (넓은 1100px 레이아웃)
+- 기존 `lesson-body` → `playground-body` 전환으로 CodeEditor와 차트 가독성 향상
+
+## v2.0.0 (2026-03-24) - 커리큘럼 대폭 재구성 (기초/중급/고급 13단계)
+
+### 커리큘럼 재구성
+- **메뉴 레이블 변경**: 입문 → 기초, 학습 → 중급, 실습 → 고급
+- **신규 페이지 2개 추가**: 분류 분석(Classification), 회귀 분석(Regression)
+- **11단계 → 13단계 확장**
+
+| STEP | 레벨 | 제목 | 경로 |
+|------|------|------|------|
+| 01 | 기초 | AI 데이터 분석이란? | /intro/what-is-data-analysis |
+| 02 | 기초 | Python 기초 | /intro/python-basics |
+| 03 | 기초 | Pandas 기초 | /intro/pandas-intro |
+| 04 | 기초 | ChatGPT 활용 | /intro/chatgpt |
+| 05 | 기초 | 데이터 유형 이해 | /intro/data-types |
+| 06 | 중급 | 데이터 전처리 | /learn/preprocessing |
+| 07 | 중급 | 탐색적 데이터 분석 | /learn/eda |
+| 08 | 중급 | 통계 분석 | /learn/statistics |
+| 09 | 중급 | 시각화 기법 | /learn/visualization |
+| 10 | 중급 | 분류 분석 | /learn/classification |
+| 11 | 중급 | 회귀 분석 | /learn/regression |
+| 12 | 고급 | 매출~보고서 프로젝트 | /practice/* |
+| 13 | 고급 | 종합 실전 프로젝트 | /practice/* |
+
+### 전체 페이지 CodeEditor 전환 (16개 페이지)
+기존 정적 `code-block` + `lesson-body` 구조를 모두 **인터랙티브 CodeEditor** + `playground-body`로 전면 재작성하여 브라우저에서 직접 실행 가능.
+
+- **기초 5개 페이지** (WhatIsDataAnalysis, PythonBasics, PandasIntro, ChatGPT, DataTypes)
+  - 정적 코드블록 → CodeEditor (페이지당 2~6개)
+  - 내용 3배 이상 상세화 (설명 + 코드 + 실습)
+
+- **중급 4개 기존 페이지** (Preprocessing, EDA, Statistics, Visualization)
+  - 정적 코드블록 → CodeEditor (페이지당 6~7개)
+  - 체계적 단계별 구성 (기초개념 → 실습 → 종합 대시보드)
+
+- **중급 2개 신규 페이지** (Classification, Regression)
+  - `Classification.jsx` — 직원 이직 예측: 로지스틱 회귀, 의사결정나무, 랜덤포레스트, confusion matrix, feature importance (6단계)
+  - `Regression.jsx` — 주택 가격 예측: 선형 회귀, 의사결정나무, 랜덤포레스트, RMSE/R2, 잔차 분석 (6단계)
+
+- **고급 5개 페이지** (Sales, Customer, Survey, TimeSeries, Report)
+  - 7단계 프로젝트 구성 (데이터 생성 → 분석 → 종합 대시보드)
+  - Sales: 매출 트렌드, 카테고리, 고객, 요일 패턴 분석
+  - Customer: RFM 분석, 세그먼트 분류, 코호트 분석, CLV 추정
+  - Survey: 리커트 분석, NPS, 교차분석, 통계검정, 자유응답 분석
+  - TimeSeries: 이동평균, 시계열 분해, 정상성 검정, 추세 예측
+  - Report: KPI 계산, HTML 보고서, 템플릿 시스템, ChatGPT 연동
+
+### CSS 스타일 개선
+- `.playground-body h2` — 상단 마진 2.5rem, 하단 보더 추가
+- `.playground-body p` — 줄간격 1.8, 하단 마진 1.2rem
+- `.playground-body ul li` — 줄간격 1.8, 하단 마진 0.3rem
+- `.playground-body ul li strong` — primary-blue 색상 강조
+- 다크모드 대응 스타일 추가
+
+### 내비게이션 흐름 업데이트
+각 페이지의 prev/next 링크를 13단계 순서에 맞게 전면 수정:
+```
+기초: 데이터분석이란 → Python기초 → Pandas기초 → ChatGPT활용 → 데이터유형 →
+중급: 전처리 → EDA → 통계분석 → 시각화 → 분류분석 → 회귀분석 →
+고급: 매출분석 → 고객분석 → 설문분석 → 시계열분석 → 보고서자동화
+```
+
+### 수정 파일 목록 (19개)
+| 파일 | 변경 내용 |
+|------|----------|
+| `src/config/site.js` | 메뉴 레이블 변경 + 분류/회귀 항목 추가 |
+| `src/App.jsx` | Classification/Regression import & route 추가 |
+| `src/pages/Home.jsx` | 커리큘럼 배열 13단계 업데이트 |
+| `src/styles/editor.css` | playground-body 줄간격/여백 스타일 추가 |
+| `src/pages/intro/WhatIsDataAnalysis.jsx` | CodeEditor 전환 (2개) |
+| `src/pages/intro/PythonBasics.jsx` | CodeEditor 전환 (5개) |
+| `src/pages/intro/PandasIntro.jsx` | CodeEditor 전환 (6개) |
+| `src/pages/intro/ChatGPT.jsx` | CodeEditor 전환 (3개) |
+| `src/pages/intro/DataTypes.jsx` | CodeEditor 전환 (5개) |
+| `src/pages/learn/Preprocessing.jsx` | CodeEditor 전환 (6개) |
+| `src/pages/learn/EDA.jsx` | CodeEditor 전환 (7개) |
+| `src/pages/learn/Statistics.jsx` | CodeEditor 전환 (7개) |
+| `src/pages/learn/Visualization.jsx` | CodeEditor 전환 (6개) |
+| `src/pages/learn/Classification.jsx` | 신규 생성 (6개 CodeEditor) |
+| `src/pages/learn/Regression.jsx` | 신규 생성 (6개 CodeEditor) |
+| `src/pages/practice/Sales.jsx` | 7단계 프로젝트 재작성 |
+| `src/pages/practice/Customer.jsx` | 7단계 프로젝트 재작성 |
+| `src/pages/practice/Survey.jsx` | 7단계 프로젝트 재작성 |
+| `src/pages/practice/TimeSeries.jsx` | 7단계 프로젝트 재작성 |
+| `src/pages/practice/Report.jsx` | 7단계 프로젝트 재작성 |

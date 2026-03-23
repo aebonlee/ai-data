@@ -41,6 +41,8 @@ const Preprocessing = lazy(() => import('./pages/learn/Preprocessing'))
 const EDA = lazy(() => import('./pages/learn/EDA'))
 const Statistics = lazy(() => import('./pages/learn/Statistics'))
 const Visualization = lazy(() => import('./pages/learn/Visualization'))
+const Classification = lazy(() => import('./pages/learn/Classification'))
+const Regression = lazy(() => import('./pages/learn/Regression'))
 
 // Practice
 const Sales = lazy(() => import('./pages/practice/Sales'))
@@ -100,6 +102,8 @@ export default function App() {
                   <Route path="learn/eda" element={<EDA />} />
                   <Route path="learn/statistics" element={<Statistics />} />
                   <Route path="learn/visualization" element={<Visualization />} />
+                  <Route path="learn/classification" element={<Classification />} />
+                  <Route path="learn/regression" element={<Regression />} />
 
                   {/* Practice */}
                   <Route path="practice/sales" element={<Sales />} />

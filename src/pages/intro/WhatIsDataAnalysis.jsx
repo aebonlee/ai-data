@@ -1,66 +1,149 @@
 import { Link } from 'react-router-dom'
 import SEOHead from '../../components/SEOHead'
+import CodeEditor from '../../components/CodeEditor'
+
+const code1 = `# 데이터 분석 기본 파이프라인 (CRISP-DM)
+import pandas as pd
+import numpy as np
+
+# 1. 비즈니스 이해 & 데이터 수집
+print("=" * 50)
+print("CRISP-DM 데이터 분석 프로세스 시연")
+print("=" * 50)
+
+# 샘플 매출 데이터 생성
+np.random.seed(42)
+dates = pd.date_range('2024-01-01', periods=12, freq='ME')
+data = {
+    '월': dates.strftime('%Y-%m'),
+    '매출': np.random.randint(800, 2000, 12) * 10000,
+    '고객수': np.random.randint(100, 500, 12),
+    '광고비': np.random.randint(50, 200, 12) * 10000
+}
+df = pd.DataFrame(data)
+
+# 2. 데이터 이해
+print("\\n[데이터 구조]")
+print(f"크기: {df.shape[0]}행 x {df.shape[1]}열")
+print(f"컬럼: {list(df.columns)}")
+print()
+print(df.head())
+
+# 3. 데이터 준비 & 분석
+print("\\n[기술통계]")
+print(df.describe())
+
+# 4. 인사이트 도출
+print("\\n[핵심 인사이트]")
+print(f"총 매출: {df['매출'].sum():,.0f}원")
+print(f"최고 매출 월: {df.loc[df['매출'].idxmax(), '월']}")
+print(f"평균 고객수: {df['고객수'].mean():.0f}명")
+print(f"광고비 대비 매출 효율: {df['매출'].sum() / df['광고비'].sum():.1f}배")`
+
+const code2 = `import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+# 마케팅 분석 사례: 고객 세그먼트별 매출 분석
+np.random.seed(42)
+n = 200
+customers = pd.DataFrame({
+    '고객ID': range(1, n+1),
+    '연령대': np.random.choice(['20대', '30대', '40대', '50대'], n, p=[0.25, 0.35, 0.25, 0.15]),
+    '구매횟수': np.random.poisson(5, n) + 1,
+    '총구매액': np.random.exponential(50000, n).astype(int) + 10000,
+    '채널': np.random.choice(['온라인', '오프라인', '모바일'], n, p=[0.4, 0.25, 0.35])
+})
+
+# 연령대별 분석
+print("[연령대별 분석]")
+age_analysis = customers.groupby('연령대').agg(
+    고객수=('고객ID', 'count'),
+    평균구매횟수=('구매횟수', 'mean'),
+    평균구매액=('총구매액', 'mean'),
+    총매출=('총구매액', 'sum')
+).round(0)
+print(age_analysis)
+
+# 채널별 분석
+print("\\n[채널별 분석]")
+channel = customers.groupby('채널').agg(
+    고객수=('고객ID', 'count'),
+    평균구매액=('총구매액', 'mean')
+).round(0)
+print(channel)
+
+# 시각화
+fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+
+age_analysis['총매출'].plot(kind='bar', ax=axes[0], color=['#6366f1', '#8b5cf6', '#a78bfa', '#c4b5fd'])
+axes[0].set_title('연령대별 총 매출', fontsize=13, fontweight='bold')
+axes[0].set_ylabel('매출 (원)')
+axes[0].tick_params(axis='x', rotation=0)
+
+channel['평균구매액'].plot(kind='bar', ax=axes[1], color=['#10b981', '#f59e0b', '#ef4444'])
+axes[1].set_title('채널별 평균 구매액', fontsize=13, fontweight='bold')
+axes[1].set_ylabel('평균 구매액 (원)')
+axes[1].tick_params(axis='x', rotation=0)
+
+plt.tight_layout()
+plt.show()`
 
 export default function WhatIsDataAnalysis() {
   return (
     <>
-      <SEOHead title="AI 데이터 분석이란?" description="AI를 활용한 데이터 분석의 개념, 활용 분야, 분석 프로세스를 알아봅니다." />
-      <section className="page-header"><div className="container"><h1>AI 데이터 분석이란?</h1><p>AI를 활용한 데이터 분석의 개념과 활용 분야를 학습합니다</p></div></section>
+      <SEOHead title="AI 데이터 분석이란?" description="AI를 활용한 데이터 분석의 개념, CRISP-DM 프로세스, 활용 분야를 알아봅니다." />
+      <section className="page-header">
+        <div className="container">
+          <h1>AI 데이터 분석이란?</h1>
+          <p>AI를 활용한 데이터 분석의 개념과 활용 분야를 학습합니다</p>
+        </div>
+      </section>
       <section className="section lesson-content">
         <div className="container">
-          <div className="lesson-body">
+          <div className="playground-body">
 
             <h2>데이터 분석의 정의</h2>
             <p>데이터 분석(Data Analysis)이란 원시 데이터를 수집, 정리, 변환하여 유의미한 정보와 인사이트를 도출하는 과정입니다. AI 기술의 발전으로 분석의 범위와 정확도가 비약적으로 향상되고 있습니다.</p>
+            <p>전통적 분석이 사람의 경험과 직관에 의존했다면, AI 데이터 분석은 대규모 데이터에서 자동으로 패턴을 찾고 예측 모델을 구축합니다. 이를 통해 더 빠르고 정확한 의사결정이 가능해집니다.</p>
 
             <h2>AI의 역할</h2>
-            <p>AI는 데이터 분석의 모든 단계에서 핵심적인 역할을 수행합니다. 데이터 수집 자동화, 결측치 처리, 패턴 인식, 최적 시각화 추천 등 분석 전 과정을 지원합니다.</p>
+            <p>AI는 데이터 분석의 모든 단계에서 핵심적인 역할을 수행합니다:</p>
+            <ul>
+              <li><strong>데이터 수집 자동화</strong> — 웹 스크래핑, API 연동, 센서 데이터 수집</li>
+              <li><strong>전처리 자동화</strong> — 결측치 탐지, 이상치 판별, 데이터 정제</li>
+              <li><strong>패턴 인식</strong> — 군집화, 분류, 연관규칙 발견</li>
+              <li><strong>예측 모델링</strong> — 미래 트렌드 예측, 수요 예측</li>
+              <li><strong>시각화 추천</strong> — 데이터에 최적화된 차트 유형 자동 선택</li>
+            </ul>
+
+            <h2>CRISP-DM 프로세스</h2>
+            <p>CRISP-DM(Cross Industry Standard Process for Data Mining)은 데이터 분석의 국제 표준 프로세스입니다. 6단계로 구성되며, 반복적으로 수행됩니다:</p>
+            <ol>
+              <li><strong>비즈니스 이해</strong> — 분석 목표와 요구사항 정의</li>
+              <li><strong>데이터 이해</strong> — 데이터 수집, 탐색, 품질 확인</li>
+              <li><strong>데이터 준비</strong> — 전처리, 변환, 피처 엔지니어링</li>
+              <li><strong>모델링</strong> — 분석 기법 선택, 모델 구축</li>
+              <li><strong>평가</strong> — 모델 성능 검증, 비즈니스 목표 달성 여부 확인</li>
+              <li><strong>배포</strong> — 분석 결과 적용, 보고서 작성</li>
+            </ol>
+            <CodeEditor title="CRISP-DM 프로세스 시연: 기초 분석 파이프라인" initialCode={code1} />
+
+            <h2>활용 분야별 사례</h2>
+            <p>AI 데이터 분석은 거의 모든 산업에서 활용되고 있습니다:</p>
+            <ul>
+              <li><strong>마케팅</strong> — 고객 세그먼테이션, A/B 테스트, 캠페인 효과 측정, CLV(고객 생애 가치) 예측</li>
+              <li><strong>금융</strong> — 신용 리스크 평가, 사기 탐지, 포트폴리오 최적화, 알고리즘 트레이딩</li>
+              <li><strong>의료/헬스케어</strong> — 환자 진단 보조, 의료 영상 분석, 신약 개발, 감염병 확산 예측</li>
+              <li><strong>HR/인사</strong> — 이직 예측, 채용 최적화, 직원 만족도 분석, 성과 예측</li>
+              <li><strong>제조</strong> — 품질 관리, 설비 고장 예측, 공정 최적화, 재고 관리</li>
+              <li><strong>유통/리테일</strong> — 수요 예측, 가격 최적화, 추천 시스템, 재고 관리</li>
+            </ul>
+            <CodeEditor title="활용 사례: 마케팅 고객 세그먼트 분석" initialCode={code2} />
 
             <div className="callout-box">
-              <h3>AI 데이터 분석의 핵심 장점</h3>
-              <p>대규모 데이터 처리 속도가 빠르고, 숨겨진 패턴을 찾아내며, 반복 작업을 자동화하여 분석가가 인사이트 도출에 집중할 수 있게 합니다.</p>
-            </div>
-
-            <h2>활용 분야</h2>
-            <h3>마케팅</h3>
-            <p>고객 세그먼테이션, A/B 테스트 분석, 캠페인 효과 측정, 고객 생애 가치(CLV) 예측 등에 활용됩니다.</p>
-            <h3>금융</h3>
-            <p>신용 리스크 평가, 사기 탐지, 포트폴리오 최적화, 주가 예측 등에 사용됩니다.</p>
-            <h3>의료/헬스케어</h3>
-            <p>환자 진단 보조, 의료 영상 분석, 신약 개발, 감염병 확산 예측 등에 활용됩니다.</p>
-
-            <h2>데이터 분석 프로세스</h2>
-            <ol>
-              <li><strong>수집 (Collection)</strong> - 다양한 소스에서 원시 데이터를 수집합니다.</li>
-              <li><strong>전처리 (Preprocessing)</strong> - 결측치 처리, 이상치 제거, 데이터 변환을 수행합니다.</li>
-              <li><strong>분석 (Analysis)</strong> - 통계 분석, 머신러닝 모델링으로 패턴을 파악합니다.</li>
-              <li><strong>시각화 (Visualization)</strong> - 분석 결과를 차트와 그래프로 표현합니다.</li>
-              <li><strong>인사이트 도출 (Insight)</strong> - 의사결정에 활용할 수 있는 인사이트를 도출합니다.</li>
-            </ol>
-
-            <div className="code-block">
-              <div className="code-header">Python</div>
-              <pre><code>{`# AI 데이터 분석 기본 워크플로우
-import pandas as pd
-import matplotlib.pyplot as plt
-
-# 1. 데이터 수집
-df = pd.read_csv('sales_data.csv')
-
-# 2. 전처리
-df = df.dropna()
-df['date'] = pd.to_datetime(df['date'])
-
-# 3. 분석
-monthly = df.groupby(df['date'].dt.month)['revenue'].sum()
-
-# 4. 시각화
-monthly.plot(kind='bar', color='steelblue')
-plt.title('월별 매출 현황')
-plt.show()
-
-# 5. 인사이트
-print(f"최고 매출 월: {monthly.idxmax()}월")`}</code></pre>
+              <h3>이 과정에서 배우게 될 것</h3>
+              <p>이 커리큘럼에서는 Python과 AI 도구를 활용하여 데이터 분석의 전 과정을 실습합니다. 기초(Python, Pandas)부터 중급(전처리, EDA, 통계, 시각화, 머신러닝), 고급(실전 프로젝트)까지 13단계로 체계적으로 학습합니다.</p>
             </div>
 
             <div className="lesson-nav">

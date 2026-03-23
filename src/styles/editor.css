@@ -296,6 +296,59 @@
     border-color: #334155;
 }
 
+/* ============================================
+   Playground / Project / AICE page spacing
+   ============================================ */
+.playground-body h2 {
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--border-light);
+}
+
+.playground-body h2:first-child {
+    margin-top: 0;
+}
+
+.playground-body p {
+    margin-bottom: 1.2rem;
+    line-height: 1.8;
+}
+
+.playground-body ul {
+    margin-bottom: 1.2rem;
+    padding-left: 1.5rem;
+}
+
+.playground-body ul li {
+    line-height: 1.8;
+    margin-bottom: 0.3rem;
+}
+
+.playground-body ul li strong {
+    color: var(--primary-blue);
+    font-weight: 700;
+}
+
+.playground-body ol {
+    margin-bottom: 1.2rem;
+    padding-left: 1.5rem;
+}
+
+.playground-body ol li {
+    line-height: 1.8;
+    margin-bottom: 0.3rem;
+}
+
+.playground-body .callout-box {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+[data-theme="dark"] .playground-body h2 {
+    border-bottom-color: #334155;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .code-editor-body {
