@@ -63,57 +63,72 @@ CREATE TABLE IF NOT EXISTS ad_workbooks (
 -- 게시판 RLS
 ALTER TABLE ad_posts ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "ad_posts_select" ON ad_posts;
 CREATE POLICY "ad_posts_select" ON ad_posts
   FOR SELECT USING (true);
 
+DROP POLICY IF EXISTS "ad_posts_insert" ON ad_posts;
 CREATE POLICY "ad_posts_insert" ON ad_posts
   FOR INSERT WITH CHECK (auth.uid() = author_id);
 
+DROP POLICY IF EXISTS "ad_posts_delete" ON ad_posts;
 CREATE POLICY "ad_posts_delete" ON ad_posts
   FOR DELETE USING (auth.uid() = author_id);
 
+DROP POLICY IF EXISTS "ad_posts_update" ON ad_posts;
 CREATE POLICY "ad_posts_update" ON ad_posts
   FOR UPDATE USING (auth.uid() = author_id);
 
 -- 댓글 RLS
 ALTER TABLE ad_comments ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "ad_comments_select" ON ad_comments;
 CREATE POLICY "ad_comments_select" ON ad_comments
   FOR SELECT USING (true);
 
+DROP POLICY IF EXISTS "ad_comments_insert" ON ad_comments;
 CREATE POLICY "ad_comments_insert" ON ad_comments
   FOR INSERT WITH CHECK (auth.uid() = author_id);
 
+DROP POLICY IF EXISTS "ad_comments_delete" ON ad_comments;
 CREATE POLICY "ad_comments_delete" ON ad_comments
   FOR DELETE USING (auth.uid() = author_id);
 
 -- 강의안 RLS
 ALTER TABLE ad_lectures ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "ad_lectures_select" ON ad_lectures;
 CREATE POLICY "ad_lectures_select" ON ad_lectures
   FOR SELECT USING (true);
 
+DROP POLICY IF EXISTS "ad_lectures_insert" ON ad_lectures;
 CREATE POLICY "ad_lectures_insert" ON ad_lectures
   FOR INSERT WITH CHECK (auth.uid() = author_id);
 
+DROP POLICY IF EXISTS "ad_lectures_update" ON ad_lectures;
 CREATE POLICY "ad_lectures_update" ON ad_lectures
   FOR UPDATE USING (auth.uid() = author_id);
 
+DROP POLICY IF EXISTS "ad_lectures_delete" ON ad_lectures;
 CREATE POLICY "ad_lectures_delete" ON ad_lectures
   FOR DELETE USING (auth.uid() = author_id);
 
 -- 워크북 RLS
 ALTER TABLE ad_workbooks ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "ad_workbooks_select" ON ad_workbooks;
 CREATE POLICY "ad_workbooks_select" ON ad_workbooks
   FOR SELECT USING (true);
 
+DROP POLICY IF EXISTS "ad_workbooks_insert" ON ad_workbooks;
 CREATE POLICY "ad_workbooks_insert" ON ad_workbooks
   FOR INSERT WITH CHECK (auth.uid() = author_id);
 
+DROP POLICY IF EXISTS "ad_workbooks_update" ON ad_workbooks;
 CREATE POLICY "ad_workbooks_update" ON ad_workbooks
   FOR UPDATE USING (auth.uid() = author_id);
 
+DROP POLICY IF EXISTS "ad_workbooks_delete" ON ad_workbooks;
 CREATE POLICY "ad_workbooks_delete" ON ad_workbooks
   FOR DELETE USING (auth.uid() = author_id);
 
@@ -154,14 +169,17 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+DROP TRIGGER IF EXISTS ad_posts_updated_at ON ad_posts;
 CREATE TRIGGER ad_posts_updated_at
   BEFORE UPDATE ON ad_posts
   FOR EACH ROW EXECUTE FUNCTION ad_update_timestamp();
 
+DROP TRIGGER IF EXISTS ad_lectures_updated_at ON ad_lectures;
 CREATE TRIGGER ad_lectures_updated_at
   BEFORE UPDATE ON ad_lectures
   FOR EACH ROW EXECUTE FUNCTION ad_update_timestamp();
 
+DROP TRIGGER IF EXISTS ad_workbooks_updated_at ON ad_workbooks;
 CREATE TRIGGER ad_workbooks_updated_at
   BEFORE UPDATE ON ad_workbooks
   FOR EACH ROW EXECUTE FUNCTION ad_update_timestamp();
@@ -194,24 +212,30 @@ CREATE TABLE IF NOT EXISTS ad_quiz_scores (
 -- 사용자 진행 RLS
 ALTER TABLE ad_user_progress ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "ad_user_progress_select" ON ad_user_progress;
 CREATE POLICY "ad_user_progress_select" ON ad_user_progress
   FOR SELECT USING (auth.uid() = user_id);
 
+DROP POLICY IF EXISTS "ad_user_progress_insert" ON ad_user_progress;
 CREATE POLICY "ad_user_progress_insert" ON ad_user_progress
   FOR INSERT WITH CHECK (auth.uid() = user_id);
 
+DROP POLICY IF EXISTS "ad_user_progress_update" ON ad_user_progress;
 CREATE POLICY "ad_user_progress_update" ON ad_user_progress
   FOR UPDATE USING (auth.uid() = user_id);
 
 -- 퀴즈 점수 RLS
 ALTER TABLE ad_quiz_scores ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "ad_quiz_scores_select" ON ad_quiz_scores;
 CREATE POLICY "ad_quiz_scores_select" ON ad_quiz_scores
   FOR SELECT USING (auth.uid() = user_id);
 
+DROP POLICY IF EXISTS "ad_quiz_scores_insert" ON ad_quiz_scores;
 CREATE POLICY "ad_quiz_scores_insert" ON ad_quiz_scores
   FOR INSERT WITH CHECK (auth.uid() = user_id);
 
+DROP POLICY IF EXISTS "ad_quiz_scores_update" ON ad_quiz_scores;
 CREATE POLICY "ad_quiz_scores_update" ON ad_quiz_scores
   FOR UPDATE USING (auth.uid() = user_id);
 

@@ -500,3 +500,13 @@ public/aice/
   - S-Tier: 콘텐츠 완성도, 교육 설계, 인터랙티브 기능, 디자인 시스템
   - 개선 필요: 접근성(ARIA/키보드), 보안(SVG 새니타이징)
   - 우선순위별 개선 권장사항 15개 도출
+
+## v2.1.2 (2026-03-24) - Supabase SQL 멱등성 수정
+
+### 변경 사항
+
+- **supabase-setup.sql** 재실행 시 "already exists" 에러 방지
+  - 모든 `CREATE POLICY` 앞에 `DROP POLICY IF EXISTS` 추가 (19개 정책)
+  - 모든 `CREATE TRIGGER` 앞에 `DROP TRIGGER IF EXISTS` 추가 (3개 트리거)
+  - 테이블/함수/인덱스는 기존 `IF NOT EXISTS` / `OR REPLACE`로 이미 멱등
+  - 이제 SQL 전체를 반복 실행해도 에러 없이 정상 동작
