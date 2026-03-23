@@ -49,19 +49,13 @@ export function useCodeRunner() {
         case 'status':
           setStatus(s)
           break
-        case 'stdout': {
-          // Check for SVG output from matplotlib
-          const svgRegex = /__SVG_START__([\s\S]*?)__SVG_END__/g
-          let cleaned = text
-          let match
-          while ((match = svgRegex.exec(text)) !== null) {
-            svgs.push(match[1])
-            cleaned = cleaned.replace(match[0], '')
-          }
-          if (svgs.length > 0) setSvgOutputs([...svgs])
-          if (cleaned.trim()) setOutput(prev => prev + cleaned)
+        case 'stdout':
+          setOutput(prev => prev + text)
           break
-        }
+        case 'svg':
+          svgs.push(e.data.svg)
+          setSvgOutputs([...svgs])
+          break
         case 'stderr':
           setOutput(prev => prev + text)
           break

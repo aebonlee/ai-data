@@ -14,26 +14,9 @@ async function initPyodide() {
   importScripts(PYODIDE_CDN + 'pyodide.js')
   pyodide = await loadPyodide({
     indexURL: PYODIDE_CDN,
-    stdout: (text) => self.postMessage({ type: 'stdout', text }),
-    stderr: (text) => self.postMessage({ type: 'stderr', text }),
+    stdout: (text) => self.postMessage({ type: 'stdout', text: text + '\n' }),
+    stderr: (text) => self.postMessage({ type: 'stderr', text: text + '\n' }),
   })
-
-  // matplotlib backend setup
-  await pyodide.runPythonAsync(`
-import sys, io
-class _MockShow:
-    @staticmethod
-    def show(*a, **kw):
-        import matplotlib
-        matplotlib.use('agg')
-        import matplotlib.pyplot as plt
-        buf = io.BytesIO()
-        plt.savefig(buf, format='svg', bbox_inches='tight')
-        buf.seek(0)
-        svg = buf.read().decode('utf-8')
-        print('__SVG_START__' + svg + '__SVG_END__')
-        plt.close('all')
-`)
 
   return pyodide
 }
@@ -110,11 +93,13 @@ try:
     plt.rcParams['axes.unicode_minus'] = False
 
     def _patched_show(*a, **kw):
+        import js
+        from pyodide.ffi import to_js
         buf = io.BytesIO()
         plt.savefig(buf, format='svg', bbox_inches='tight', dpi=100)
         buf.seek(0)
         svg = buf.read().decode('utf-8')
-        print('__SVG_START__' + svg + '__SVG_END__')
+        js.postMessage(to_js({'type': 'svg', 'svg': svg}, dict_converter=js.Object.fromEntries))
         plt.close('all')
     plt.show = _patched_show
 except ImportError:

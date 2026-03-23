@@ -68,12 +68,12 @@ fig, axes = plt.subplots(1, 2, figsize=(12, 5))
 
 # 바 차트
 axes[0].bar(categories, sales, color=colors)
-axes[0].set_title('Category Sales', fontsize=14, fontweight='bold')
-axes[0].set_ylabel('Sales (만원)')
+axes[0].set_title('카테고리별 매출', fontsize=14, fontweight='bold')
+axes[0].set_ylabel('매출 (만원)')
 
 # 파이 차트
 axes[1].pie(sales, labels=categories, colors=colors, autopct='%1.0f%%', startangle=90)
-axes[1].set_title('Sales Distribution', fontsize=14, fontweight='bold')
+axes[1].set_title('매출 비율', fontsize=14, fontweight='bold')
 
 plt.tight_layout()
 plt.show()`
@@ -82,29 +82,46 @@ plt.show()`
     label: '통계 분석',
     icon: 'fa-solid fa-chart-line',
     code: `import numpy as np
+import matplotlib.pyplot as plt
 
 # 두 그룹의 시험 점수
 np.random.seed(42)
-group_a = np.random.normal(75, 10, 30)  # 평균 75, 표준편차 10
-group_b = np.random.normal(80, 12, 30)  # 평균 80, 표준편차 12
+group_a = np.random.normal(75, 10, 30)
+group_b = np.random.normal(80, 12, 30)
 
 print("=== 그룹 A 통계 ===")
 print(f"평균: {group_a.mean():.2f}")
 print(f"중앙값: {np.median(group_a):.2f}")
 print(f"표준편차: {group_a.std():.2f}")
-print(f"최소/최대: {group_a.min():.1f} / {group_a.max():.1f}")
 
 print("\\n=== 그룹 B 통계 ===")
 print(f"평균: {group_b.mean():.2f}")
 print(f"중앙값: {np.median(group_b):.2f}")
 print(f"표준편차: {group_b.std():.2f}")
-print(f"최소/최대: {group_b.min():.1f} / {group_b.max():.1f}")
 
 # 상관관계
 x = np.random.randn(50)
 y = 0.7 * x + np.random.randn(50) * 0.5
 corr = np.corrcoef(x, y)[0, 1]
-print(f"\\n상관계수: {corr:.4f}")`
+print(f"\\n상관계수: {corr:.4f}")
+
+# 시각화
+fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+
+axes[0].hist(group_a, bins=8, alpha=0.7, color='#7C3AED', label='그룹 A')
+axes[0].hist(group_b, bins=8, alpha=0.7, color='#3B82F6', label='그룹 B')
+axes[0].set_title('점수 분포 비교', fontsize=14, fontweight='bold')
+axes[0].set_xlabel('점수')
+axes[0].set_ylabel('빈도')
+axes[0].legend()
+
+axes[1].scatter(x, y, color='#10B981', alpha=0.6, edgecolors='white')
+axes[1].set_title(f'상관관계 (r={corr:.2f})', fontsize=14, fontweight='bold')
+axes[1].set_xlabel('X')
+axes[1].set_ylabel('Y')
+
+plt.tight_layout()
+plt.show()`
   }
 ]
 
