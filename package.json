@@ -1,5 +1,7 @@
 {
   "name": "ai-data",
+  "description": "AI 데이터 학습",
+  "homepage": "https://ai-data.dreamitbiz.com",
   "private": true,
   "version": "1.0.0",
   "type": "module",
