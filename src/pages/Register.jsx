@@ -17,6 +17,10 @@ export default function Register() {
     e.preventDefault()
     setError('')
 
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+      setError('올바른 이메일 주소를 입력해주세요.')
+      return
+    }
     if (password !== passwordConfirm) {
       setError('비밀번호가 일치하지 않습니다.')
       return
