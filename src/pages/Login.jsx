@@ -91,6 +91,11 @@ export default function Login() {
           </form>
         )}
 
+        <div style={{ textAlign: 'center', marginBottom: '12px' }}>
+          <Link to="/forgot-password" style={{ fontSize: '13px', color: 'var(--text-light)' }}>
+            비밀번호를 잊으셨나요?
+          </Link>
+        </div>
         <div className="auth-link">
           계정이 없으신가요? <Link to="/register">회원가입</Link>
         </div>

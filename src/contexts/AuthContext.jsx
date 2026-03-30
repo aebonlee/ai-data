@@ -118,6 +118,14 @@ export function AuthProvider({ children }) {
     return { data, error }
   }
 
+  const resetPassword = async (email) => {
+    if (!supabase) return { error: { message: 'Supabase가 설정되지 않았습니다.' } }
+    const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: window.location.origin + '/login',
+    })
+    return { data, error }
+  }
+
   const signOut = async () => {
     if (!supabase) return
     await supabase.auth.signOut()
@@ -125,7 +133,7 @@ export function AuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, loading, accountBlock, clearAccountBlock, signUp, signIn, signInWithGoogle, signInWithKakao, signOut }}>
+    <AuthContext.Provider value={{ user, loading, accountBlock, clearAccountBlock, signUp, signIn, signInWithGoogle, signInWithKakao, resetPassword, signOut }}>
       {children}
     </AuthContext.Provider>
   )

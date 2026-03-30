@@ -21,8 +21,8 @@ export default function Register() {
       setError('비밀번호가 일치하지 않습니다.')
       return
     }
-    if (password.length < 6) {
-      setError('비밀번호는 6자 이상이어야 합니다.')
+    if (!/^(?=.*[a-zA-Z])(?=.*\d).{8,}$/.test(password)) {
+      setError('비밀번호는 8자 이상, 영문과 숫자를 포함해야 합니다.')
       return
     }
 
@@ -67,7 +67,7 @@ export default function Register() {
             </div>
             <div className="auth-field">
               <label>비밀번호</label>
-              <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="6자 이상" required />
+              <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="8자 이상, 영문+숫자" required />
             </div>
             <div className="auth-field">
               <label>비밀번호 확인</label>
