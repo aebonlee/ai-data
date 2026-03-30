@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://ai-data.dreamitbiz.com/sitemap.xml
