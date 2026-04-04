@@ -77,6 +77,26 @@ export function AuthProvider({ children }) {
           .update({ last_sign_in_at: new Date().toISOString() })
           .eq('id', u.id)
           .then(() => {})
+
+        // Domain tracking
+        const hostname = window.location.hostname
+        supabase
+          .from('user_profiles')
+          .select('visited_sites')
+          .eq('id', u.id)
+          .single()
+          .then(({ data: profile }) => {
+            if (profile) {
+              const sites = profile.visited_sites || []
+              if (!sites.includes(hostname)) {
+                supabase.from('user_profiles')
+                  .update({ visited_sites: [...sites, hostname] })
+                  .eq('id', u.id)
+                  .then(() => {})
+              }
+            }
+          })
+
         handlePostAuth(u.id)
       }
     })
@@ -84,13 +104,23 @@ export function AuthProvider({ children }) {
     return () => subscription.unsubscribe()
   }, [handlePostAuth])
 
-  const signUp = async (email, password, displayName) => {
+  const signUp = async (email, password, fullName) => {
     if (!supabase) return { error: { message: 'Supabase가 설정되지 않았습니다.' } }
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
-      options: { data: { display_name: displayName } }
+      options: { data: { full_name: fullName } }
     })
+    if (error) throw error
+    if (data?.user) {
+      await supabase.from('user_profiles').upsert({
+        id: data.user.id,
+        email: data.user.email,
+        full_name: fullName || '',
+        signup_domain: window.location.hostname,
+        visited_sites: [window.location.hostname],
+      }, { onConflict: 'id' })
+    }
     return { data, error }
   }
 
