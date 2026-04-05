@@ -19,7 +19,7 @@ export default function ForgotPassword() {
       const { error: err } = await resetPassword(email)
       if (err) throw err
       setSent(true)
-    } catch (err) {
+    } catch (err: any) {
       setError(err.message || '비밀번호 재설정 이메일 전송에 실패했습니다.')
     } finally {
       setLoading(false)
