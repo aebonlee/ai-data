@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { siteConfig } from '../config/site'
 
-export default function SEOHead({ title, description }) {
+export default function SEOHead({ title, description }: any) {
   useEffect(() => {
     const fullTitle = title ? `${title} - ${siteConfig.name}` : siteConfig.title
     document.title = fullTitle

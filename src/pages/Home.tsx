@@ -52,7 +52,7 @@ export default function Home() {
               <div
                 key={p.id}
                 className="particle"
-                style={{ left: p.left, top: p.top, '--duration': p.duration, animationDelay: p.delay }}
+                style={{ left: p.left, top: p.top, '--duration': p.duration, animationDelay: p.delay } as React.CSSProperties}
               />
             ))}
           </div>

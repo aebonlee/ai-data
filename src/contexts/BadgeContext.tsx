@@ -3,7 +3,7 @@ import { badges } from '../data/badges'
 import { useProgress } from './ProgressContext'
 import { quizzes } from '../data/quizzes'
 
-const BadgeContext = createContext()
+const BadgeContext = createContext<any>(null)
 
 const STORAGE_KEY = 'ad-badges'
 const ALL_QUIZ_IDS = Object.keys(quizzes)
@@ -17,7 +17,7 @@ export function BadgeProvider({ children }) {
   })
   const [newBadge, setNewBadge] = useState(null)
 
-  const { quizScores, codeRuns, streak, getQuizBestScore } = useProgress()
+  const { quizScores, codeRuns, streak, getQuizBestScore  }: any = useProgress()
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(earnedBadges))
@@ -26,7 +26,7 @@ export function BadgeProvider({ children }) {
   // Evaluate badge conditions
   useEffect(() => {
     const newlyEarned = []
-    const completedQuizCount = Object.values(quizScores).filter(s => s?.attempts?.length > 0).length
+    const completedQuizCount = Object.values(quizScores).filter((s: any) => s?.attempts?.length > 0).length
 
     for (const badge of badges) {
       if (earnedBadges.includes(badge.id)) continue

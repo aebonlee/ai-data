@@ -11,7 +11,7 @@ export default function Register() {
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
   const [loading, setLoading] = useState(false)
-  const { signUp } = useAuth()
+  const { signUp  }: any = useAuth()
 
   const handleSubmit = async (e) => {
     e.preventDefault()

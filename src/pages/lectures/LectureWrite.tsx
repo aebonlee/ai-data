@@ -5,7 +5,7 @@ import { createLecture } from '../../services/lectureService'
 import SEOHead from '../../components/SEOHead'
 
 export default function LectureWrite() {
-  const { user } = useAuth()
+  const { user  }: any = useAuth()
   const navigate = useNavigate()
   const [weekNumber, setWeekNumber] = useState(1)
   const [title, setTitle] = useState('')

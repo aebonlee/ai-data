@@ -10,8 +10,8 @@ export default function Navbar() {
   const [openDropdown, setOpenDropdown] = useState(null)
   const [colorPickerOpen, setColorPickerOpen] = useState(false)
   const [userMenuOpen, setUserMenuOpen] = useState(false)
-  const { theme, toggleTheme, colorTheme, setColorTheme } = useTheme()
-  const { user, signOut } = useAuth()
+  const { theme, toggleTheme, colorTheme, setColorTheme  }: any = useTheme()
+  const { user, signOut  }: any = useAuth()
   const location = useLocation()
   const userMenuRef = useRef(null)
 

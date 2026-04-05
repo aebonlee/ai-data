@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import SEOHead from '../components/SEOHead'
 
 export default function Profile() {
-  const { user, signOut } = useAuth()
+  const { user, signOut  }: any = useAuth()
   const navigate = useNavigate()
 
   const handleSignOut = async () => {

@@ -4,7 +4,7 @@ import { quizzes } from '../../data/quizzes'
 import { useProgress } from '../../contexts/ProgressContext'
 
 export default function QuizHome() {
-  const { getQuizBestScore, getQuizAttempts } = useProgress()
+  const { getQuizBestScore, getQuizAttempts  }: any = useProgress()
   const quizList = Object.entries(quizzes)
 
   return (
@@ -21,7 +21,7 @@ export default function QuizHome() {
       <section className="section">
         <div className="container">
           <div className="quiz-cards-grid">
-            {quizList.map(([id, quiz]) => {
+            {quizList.map(([id, quiz]: [string, any]) => {
               const bestScore = getQuizBestScore(id)
               const attempts = getQuizAttempts(id)
               const passed = bestScore !== undefined && bestScore >= quiz.passingScore

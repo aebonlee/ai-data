@@ -4,7 +4,7 @@ import { useAuth } from '../contexts/AuthContext'
 import SEOHead from '../components/SEOHead'
 
 export default function ForgotPassword() {
-  const { resetPassword } = useAuth()
+  const { resetPassword  }: any = useAuth()
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
   const [sent, setSent] = useState(false)

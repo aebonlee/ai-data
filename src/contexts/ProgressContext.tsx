@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useEffect, useCallback, useRef } f
 import { supabase } from '../config/supabase'
 import { useAuth } from './AuthContext'
 
-const ProgressContext = createContext()
+const ProgressContext = createContext<any>(null)
 
 const STORAGE_KEY = 'ad-progress'
 
@@ -22,7 +22,7 @@ function loadProgress() {
 }
 
 export function ProgressProvider({ children }) {
-  const { user } = useAuth()
+  const { user  }: any = useAuth()
   const [state, setState] = useState(loadProgress)
   const syncTimerRef = useRef(null)
 

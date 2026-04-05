@@ -5,8 +5,8 @@ import { getPost, deletePost, getComments, createComment, deleteComment } from '
 import SEOHead from '../../components/SEOHead'
 
 export default function CommunityView() {
-  const { id } = useParams()
-  const { user } = useAuth()
+  const { id  }: any = useParams()
+  const { user  }: any = useAuth()
   const navigate = useNavigate()
   const [post, setPost] = useState(null)
   const [comments, setComments] = useState([])

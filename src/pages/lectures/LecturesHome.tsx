@@ -20,7 +20,7 @@ const staticLessons = [
 ]
 
 export default function LecturesHome() {
-  const { user } = useAuth()
+  const { user  }: any = useAuth()
   const navigate = useNavigate()
   const [lectures, setLectures] = useState([])
   const [loading, setLoading] = useState(true)
@@ -82,7 +82,7 @@ export default function LecturesHome() {
                                 </div>
                               </td>
                             </tr>
-                            {isExpanded && <tr className="lecture-dropdown-row"><td colSpan="3"><div className="lecture-dropdown-content">{lecture.content ? <div className="lecture-content-text">{lecture.content.split('\n').map((line, i) => <p key={i}>{line || '\u00A0'}</p>)}</div> : <p className="lecture-content-empty">내용이 없습니다.</p>}</div></td></tr>}
+                            {isExpanded && <tr className="lecture-dropdown-row"><td colSpan={3}><div className="lecture-dropdown-content">{lecture.content ? <div className="lecture-content-text">{lecture.content.split('\n').map((line, i) => <p key={i}>{line || '\u00A0'}</p>)}</div> : <p className="lecture-content-empty">내용이 없습니다.</p>}</div></td></tr>}
                           </React.Fragment>
                         )
                       })}

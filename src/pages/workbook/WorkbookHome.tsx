@@ -6,7 +6,7 @@ import { supabase } from '../../config/supabase'
 import SEOHead from '../../components/SEOHead'
 
 export default function WorkbookHome() {
-  const { user } = useAuth()
+  const { user  }: any = useAuth()
   const navigate = useNavigate()
   const [workbooks, setWorkbooks] = useState([])
   const [loading, setLoading] = useState(true)
@@ -57,7 +57,7 @@ export default function WorkbookHome() {
                                 </div>
                               </td>
                             </tr>
-                            {isExpanded && <tr className="lecture-dropdown-row"><td colSpan="3"><div className="lecture-dropdown-content">{wb.content ? <div className="lecture-content-text">{wb.content.split('\n').map((l, i) => <p key={i}>{l || '\u00A0'}</p>)}</div> : <p className="lecture-content-empty">내용이 없습니다.</p>}</div></td></tr>}
+                            {isExpanded && <tr className="lecture-dropdown-row"><td colSpan={3}><div className="lecture-dropdown-content">{wb.content ? <div className="lecture-content-text">{wb.content.split('\n').map((l, i) => <p key={i}>{l || '\u00A0'}</p>)}</div> : <p className="lecture-content-empty">내용이 없습니다.</p>}</div></td></tr>}
                           </React.Fragment>
                         )
                       })}

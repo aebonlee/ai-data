@@ -9,7 +9,7 @@ const STATUS_MAP = {
   error: { icon: 'fa-circle-xmark', label: '오류', color: '#EF4444' },
 }
 
-export default function CodeEditor({ initialCode = '', title = '' }) {
+export default function CodeEditor({ initialCode = '', title = '' }: any) {
   const [code, setCode] = useState(initialCode)
   const [showInput, setShowInput] = useState(false)
   const [userInput, setUserInput] = useState('')

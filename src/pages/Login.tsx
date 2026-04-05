@@ -9,7 +9,7 @@ export default function Login() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
-  const { user, signIn, signInWithGoogle, signInWithKakao } = useAuth()
+  const { user, signIn, signInWithGoogle, signInWithKakao  }: any = useAuth()
   const navigate = useNavigate()
 
   useEffect(() => {

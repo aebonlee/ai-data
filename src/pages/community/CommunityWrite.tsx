@@ -7,7 +7,7 @@ import SEOHead from '../../components/SEOHead'
 const categories = ['자유', '질문', '팁 공유', '데이터 공유']
 
 export default function CommunityWrite() {
-  const { user } = useAuth()
+  const { user  }: any = useAuth()
   const navigate = useNavigate()
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')

@@ -1,8 +1,8 @@
 import { Navigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 
-export default function ProtectedRoute({ children }) {
-  const { user, loading } = useAuth()
+export default function ProtectedRoute({ children }: any) {
+  const { user, loading  }: any = useAuth()
 
   if (loading) {
     return (

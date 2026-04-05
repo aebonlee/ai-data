@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 
-export default function QuizComponent({ quiz, quizId, onComplete }) {
+export default function QuizComponent({ quiz, quizId, onComplete }: any) {
   const [currentQ, setCurrentQ] = useState(0)
   const [selected, setSelected] = useState(null)
   const [answered, setAnswered] = useState(false)
@@ -27,6 +27,7 @@ export default function QuizComponent({ quiz, quizId, onComplete }) {
 
   // Timer
   useEffect(() => {
+  const handleFinish = () => {};
     if (finished) return
     timerRef.current = setInterval(() => {
       setTimeLeft(prev => {
