@@ -109,7 +109,10 @@ export function AuthProvider({ children }) {
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
-      options: { data: { full_name: fullName } }
+      options: {
+        emailRedirectTo: window.location.origin + '/',
+        data: { full_name: fullName }
+      }
     })
     if (error) throw error
     if (data?.user) {
@@ -134,7 +137,7 @@ export function AuthProvider({ children }) {
     if (!supabase) return { error: { message: 'Supabase가 설정되지 않았습니다.' } }
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
-      options: { redirectTo: window.location.origin + '/login' }
+      options: { redirectTo: window.location.origin + '/' }
     })
     return { data, error }
   }
@@ -143,7 +146,7 @@ export function AuthProvider({ children }) {
     if (!supabase) return { error: { message: 'Supabase가 설정되지 않았습니다.' } }
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'kakao',
-      options: { redirectTo: window.location.origin + '/login' }
+      options: { redirectTo: window.location.origin + '/' }
     })
     return { data, error }
   }
