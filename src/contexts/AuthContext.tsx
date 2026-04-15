@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState, useCallback } from 'react'
 import { supabase } from '../config/supabase'
+import { isAdmin as isAdminEmail } from '../config/admin'
 
 const AuthContext = createContext({})
 
@@ -166,7 +167,7 @@ export function AuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, loading, accountBlock, clearAccountBlock, signUp, signIn, signInWithGoogle, signInWithKakao, resetPassword, signOut }}>
+    <AuthContext.Provider value={{ user, loading, isAdmin: isAdminEmail(user?.email), accountBlock, clearAccountBlock, signUp, signIn, signInWithGoogle, signInWithKakao, resetPassword, signOut }}>
       {children}
     </AuthContext.Provider>
   )

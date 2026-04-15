@@ -6,6 +6,7 @@ import { ProgressProvider } from './contexts/ProgressContext'
 import { BadgeProvider } from './contexts/BadgeContext'
 import PublicLayout from './components/PublicLayout'
 import ProtectedRoute from './components/ProtectedRoute'
+import AdminGuard from './components/AdminGuard'
 
 // Pages
 const Home = lazy(() => import('./pages/Home'))
@@ -78,6 +79,7 @@ const CommunityView = lazy(() => import('./pages/community/CommunityView'))
 const QuizHome = lazy(() => import('./pages/quiz/QuizHome'))
 const QuizDetail = lazy(() => import('./pages/quiz/QuizDetail'))
 const BadgeCollection = lazy(() => import('./pages/BadgeCollection'))
+const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard'))
 
 export default function App() {
   return (
@@ -161,6 +163,7 @@ export default function App() {
                   <Route path="playground" element={<Playground />} />
                   <Route path="references" element={<References />} />
 
+                  <Route path="admin" element={<AdminGuard><AdminDashboard /></AdminGuard>} />
                   <Route path="*" element={<NotFound />} />
                 </Route>
               </Routes>
