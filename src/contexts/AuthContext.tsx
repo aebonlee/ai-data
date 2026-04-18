@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState, useCallback } from 'react'
 import { supabase } from '../config/supabase'
 import { isAdmin as isAdminEmail } from '../config/admin'
+import { useIdleTimeout } from '../hooks/useIdleTimeout';
 
 const AuthContext = createContext({})
 
@@ -101,6 +102,15 @@ export function AuthProvider({ children }) {
         handlePostAuth(u.id)
       }
     })
+
+
+  // 10분 무동작 세션 타임아웃
+  useIdleTimeout({
+    enabled: !!user,
+    onTimeout: () => {
+      supabase.auth.signOut();
+    },
+  });
 
     return () => subscription.unsubscribe()
   }, [handlePostAuth])
