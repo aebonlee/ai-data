@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState, useCallback } from 'rea
 import { supabase } from '../config/supabase'
 import { isAdmin as isAdminEmail } from '../config/admin'
 import { useIdleTimeout } from '../hooks/useIdleTimeout';
+import ProfileCompleteModal from '../components/ProfileCompleteModal';
 
 const AuthContext = createContext({})
 
@@ -57,6 +58,16 @@ export function AuthProvider({ children }) {
       // check_user_status 함수 미존재 시 무시
     }
   }, [])
+
+  const [_userProfile, _setUserProfile] = useState<any>(null);
+
+  // ─── 프로필 완성 체크용 user_profiles 로드 ───
+  const _loadUserProfile = useCallback(async (uid: string) => {
+    try {
+      const { data } = await supabase!.from('user_profiles').select('name,phone').eq('id', uid).maybeSingle();
+      _setUserProfile(data);
+    } catch { _setUserProfile(null); }
+  }, []);
 
   useEffect(() => {
     if (!supabase) {
@@ -172,13 +183,19 @@ export function AuthProvider({ children }) {
   useIdleTimeout({
   enabled: !!user,
   onTimeout: () => {
-  supabase.auth.signOut();
+  supabase?.auth.signOut();
   },
   });
+  const refreshProfile = useCallback(async () => { if (user) await _loadUserProfile(user.id); }, [user, _loadUserProfile]);
+  const needsProfileCompletion = !!user && !!_userProfile && (!_userProfile.name || !_userProfile.phone);
+
 
   return (
     <AuthContext.Provider value={{ user, loading, isAdmin: isAdminEmail(user?.email), accountBlock, clearAccountBlock, signUp, signIn, signInWithGoogle, signInWithKakao, resetPassword, signOut }}>
       {children}
+      {needsProfileCompletion && user && (
+        <ProfileCompleteModal user={user} onComplete={refreshProfile} />
+      )}
     </AuthContext.Provider>
   )
 }
