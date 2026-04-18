@@ -103,15 +103,6 @@ export function AuthProvider({ children }) {
       }
     })
 
-
-  // 10분 무동작 세션 타임아웃
-  useIdleTimeout({
-    enabled: !!user,
-    onTimeout: () => {
-      supabase.auth.signOut();
-    },
-  });
-
     return () => subscription.unsubscribe()
   }, [handlePostAuth])
 
@@ -175,6 +166,15 @@ export function AuthProvider({ children }) {
     await supabase.auth.signOut()
     setUser(null)
   }
+
+
+  // 10분 무동작 세션 타임아웃
+  useIdleTimeout({
+  enabled: !!user,
+  onTimeout: () => {
+  supabase.auth.signOut();
+  },
+  });
 
   return (
     <AuthContext.Provider value={{ user, loading, isAdmin: isAdminEmail(user?.email), accountBlock, clearAccountBlock, signUp, signIn, signInWithGoogle, signInWithKakao, resetPassword, signOut }}>
