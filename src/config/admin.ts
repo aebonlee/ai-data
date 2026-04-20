@@ -1,4 +1,4 @@
-export const ADMIN_EMAILS = ['aebon@kakao.com', 'aebon@kyonggi.ac.kr'];
+export const ADMIN_EMAILS = ['aebon@kakao.com', 'radical8566@gmail.com', 'aebon@kyonggi.ac.kr'];
 
 export function isAdmin(email?: string | null): boolean {
   if (!email) return false;
