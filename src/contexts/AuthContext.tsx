@@ -5,7 +5,21 @@ import { useIdleTimeout } from '../hooks/useIdleTimeout';
 import ProfileCompleteModal from '../components/ProfileCompleteModal';
 
 import PaymentNudgePopup from '../components/PaymentNudgePopup';
-const AuthContext = createContext({})
+interface AuthContextType {
+  user: any;
+  loading: boolean;
+  isAdmin: boolean;
+  accountBlock: any;
+  clearAccountBlock: () => void;
+  signUp: (email: string, password: string, fullName?: string) => Promise<any>;
+  signIn: (email: string, password: string) => Promise<any>;
+  signInWithGoogle: () => Promise<any>;
+  signInWithKakao: () => Promise<any>;
+  resetPassword: (email: string) => Promise<any>;
+  signOut: () => Promise<void>;
+}
+
+const AuthContext = createContext<AuthContextType>({} as AuthContextType)
 
 export const useAuth = () => useContext(AuthContext)
 
